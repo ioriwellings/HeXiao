@@ -1,0 +1,386 @@
+﻿@{
+    Layout = "~/Views/Shared/Edit.cshtml";
+}
+
+@model Langben.DAL.PoliceInsurance
+
+@using Common
+@using Models
+<div class="portlet-title">
+    <div class="caption">
+        <i class="icon-equalizer font-red-sunglo"></i>
+        <span class="caption-subject font-red-sunglo bold uppercase">社保政策</span>
+        <span class="caption-helper">@ViewBag.InsuranceName，默认2位小数格式展示</span>
+    </div>
+</div>
+<div class="portlet-body form">
+    <!-- BEGIN FORM-->
+    <form action="/api/PoliceInsuranceApi/Put" class="form-horizontal">
+        <div class="form-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Name) })
+                            @Html.ValidationMessageFor(model => model.Name)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CityId, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.CityId, Models.SysFieldModels.GetSysField("PoliceInsurance", "CityId"),   new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CityId)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PoliceAccountNatureId, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.PoliceAccountNatureId, Models.SysFieldModels.GetSysField("PoliceInsurance", "PoliceAccountNatureId"),   new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PoliceAccountNatureId)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.InsuranceKindId, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <select class="form-control" id="InsuranceKindId" name="InsuranceKindId">
+                                <option value="养老保险">养老保险</option>
+                                <option value="医疗保险">医疗保险</option>
+                                <option value="失业保险">失业保险</option>
+                                <option value="工伤保险">工伤保险</option>
+                                <option value="生育保险">生育保险</option>
+                                <option value="住房公积金">住房公积金</option>
+                                <option value="补充养老保险">补充养老保险</option>
+                                <option value="大病或者特种病">大病或者特种病</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StartTime, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.StartTime, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.StartTime) })
+                            @Html.ValidationMessageFor(model => model.StartTime)
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EndTime, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.EndTime, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.EndTime) })
+                            @Html.ValidationMessageFor(model => model.EndTime)
+
+                        </div>
+                    </div>
+                </div>
+                <h3 class="form-section">企业</h3>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CompanyPercent, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8"> 
+                            @Html.TextBoxFor(model => model.CompanyPercent, new { style = "width:190px", @class = "form-control  col-md-7", placeholder = Html.DisplayNameFor(model => model.CompanyPercent) })
+                            @Html.ValidationMessageFor(model => model.CompanyPercent)
+                            <label class="control-label col-md-1" for="CompanyPercent">%</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CompanyNumber, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.CompanyNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.CompanyNumber) })
+                            @Html.ValidationMessageFor(model => model.CompanyNumber)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CompanyLowestNumber, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.CompanyLowestNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.CompanyLowestNumber) })
+                            @Html.ValidationMessageFor(model => model.CompanyLowestNumber)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CompanyHighestNumber, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.CompanyHighestNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.CompanyHighestNumber) })
+                            @Html.ValidationMessageFor(model => model.CompanyHighestNumber)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CompanySub, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+
+                            <select class="form-control" id="CompanySub" name="CompanySub">
+                                <option value="1">四舍五入</option>
+                                <option value="2">直接舍去</option>
+                                <option value="3">直接进位</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CompanyDigit, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <select class="form-control" id="CompanyDigit" name="CompanyDigit">
+                                <option value="2">保留到分，即两位小数</option>
+                                <option value="1">保留到角，即一位小数</option>
+                                <option value="0">保留到元，即保留到整数</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="form-section">员工</h3>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeePercent, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.EmployeePercent, new { style = "width:190px" , @class = "form-control col-md-7", placeholder = Html.DisplayNameFor(model => model.EmployeePercent) })
+                            @Html.ValidationMessageFor(model => model.EmployeePercent)
+                            <label class="control-label col-md-1" for="EmployeePercent">%</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeNumber, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.EmployeeNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.EmployeeNumber) })
+                            @Html.ValidationMessageFor(model => model.EmployeeNumber)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeLowestNumber, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.EmployeeLowestNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.EmployeeLowestNumber) })
+                            @Html.ValidationMessageFor(model => model.EmployeeLowestNumber)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeHighestNumber, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.EmployeeHighestNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.EmployeeHighestNumber) })
+                            @Html.ValidationMessageFor(model => model.EmployeeHighestNumber)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeSub, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <select class="form-control" id="EmployeeSub" name="EmployeeSub">
+                                <option value="1">四舍五入</option>
+                                <option value="2">直接舍去</option>
+                                <option value="3">直接进位</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeDigit, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <select class="form-control" id="EmployeeDigit" name="EmployeeDigit">
+                                <option value="2">保留到分，即两位小数</option>
+                                <option value="1">保留到角，即一位小数</option>
+                                <option value="0">保留到元，即保留到整数</option>
+
+
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="form-section">其他</h3>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LowWage, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.LowWage, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.LowWage) })
+                            @Html.ValidationMessageFor(model => model.LowWage)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SocialWage, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.SocialWage, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.SocialWage) })
+                            @Html.ValidationMessageFor(model => model.SocialWage)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Remark) })
+                            @Html.ValidationMessageFor(model => model.Remark)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">修改</button>
+                                <button type="button" class="btn default" onclick="BackList('/PoliceInsurance/Index/@ViewBag.Id')">返回</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+        <input name="InsuranceId" id="InsuranceId" type="hidden" value="@Model.InsuranceId" />
+        @Html.HiddenFor(model => model.Vertion)
+        
+@Html.HiddenFor(model => model.CreateTime)
+@Html.HiddenFor(model => model.CreatePerson)
+@Html.HiddenFor(model => model.Id)
+    </form>
+    <!-- END FORM-->
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        daterangepicker2("#StartTime", true);
+        daterangepicker2("#EndTime", true);
+        $("#InsuranceKindId").val('@Model.InsuranceKindId');
+        $("#CompanySub").val('@Model.CompanySub');
+        $("#CompanyDigit").val('@Model.CompanyDigit');
+        $("#EmployeeSub").val('@Model.EmployeeSub');
+        $("#EmployeeDigit").val('@Model.EmployeeDigit');
+        $("form").submit(function (form) {
+
+            if (form.result) {
+
+                $.ajax({
+                    url: this.action,
+                    type: "Put",
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function (data) {
+                        debugger
+                        $.confirm({
+                            title: '操作提示',
+                            backgroundDismiss: true,//Click outside the dialog, and i shall close!'
+                            content: data.Message,
+                            buttons: {
+                                ok: {
+                                    text: "继续",
+                                    btnClass: 'btn-primary',
+                                    keys: ['enter'],
+                                    action: function () {
+
+                                    }
+                                },
+                                cancel: {
+                                    text: "返回",
+                                    btnClass: 'btn',
+                                    action: function () {
+                                        $("#contentBody").load("/PoliceInsurance/Index/@ViewBag.Id", function () {
+
+                                        });
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                });
+            }
+            return false;
+        });
+
+    });
+
+</script>
+
+
+

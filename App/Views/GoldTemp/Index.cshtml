@@ -1,0 +1,302 @@
+﻿@*目标模板*@
+@model Langben.DAL.GoldTemp
+
+@using Common
+@using Models
+
+<div id="divQuery" class="form-horizontal">
+
+            <div class="row">
+ 
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.State, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownList("StateDDL_String", Models.SysFieldModels.GetSysField("GoldTemp","State"),"请选择",new { @class = "form-control",id = "StateDDL_String" })
+                            
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CreateTime, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="CreateTime"/>
+                            
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UpdateTime, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="UpdateTime"/>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+ 
+                <div class="col-md-4">
+                    <input type='hidden' id='search' name='search' />
+                    <button id='langbenQuery' type='submit' class='btn btn-primary'>查 询</button>
+                </div>
+
+            </div>
+
+
+</div>
+<div class="row">
+
+    <div class="col-md-1">
+        <button onclick="langbenCreate()" class="btn default"><i class="icon-plus"></i> 创建</button>
+    </div>
+
+    <div class="col-md-11">
+
+    </div>
+</div>
+<table id="langbenData" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.Name)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.State)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.CreateTime)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.CreatePerson)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.UpdateTime)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.UpdatePerson)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.Vertion)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.Remark)</th>
+
+            <th data-visible='false'>@Html.DisplayNameFor(model => model.Id)</th>
+
+            <th data-orderable="false">
+                操作
+            </th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot></tfoot>
+</table>
+
+<script type="text/javascript" language="javascript">
+    $(function () {
+
+        var table = $('#langbenData').DataTable({
+            ajax: {
+                type: "POST",
+                url: '/GoldTemp/GetData',
+                contentType: 'application/json; charset=utf-8',
+                data: function (data) {
+
+                    data.search.value = $('#search').val();
+                    return data = JSON.stringify(data);
+                }
+            },
+            order: [[0, "desc"]],
+            columns: [
+                
+            { data: 'Name' },
+
+            { data: 'State' },
+
+                {
+                    data: 'CreateTime', render: function (data, type, full, meta) {
+                     
+                        return dateConvert(data);
+
+                    }
+                },
+
+            { data: 'CreatePerson' },
+
+                {
+                    data: 'UpdateTime', render: function (data, type, full, meta) {
+                     
+                        return dateConvert(data);
+
+                    }
+                },
+
+            { data: 'UpdatePerson' },
+
+            { data: 'Vertion' },
+
+            { data: 'Remark' },
+
+            { data: 'Id' },
+
+
+               { data: "操作" }
+            ],
+            columnDefs: [
+                 {
+                     targets: 0,//第一列
+                     render: function (data, type, full, meta) {
+
+                         data = (data != null) ? data : '';
+
+                         return '<a href="#" onclick="langbenView('
+                           + "'" + full.Id + "'"
+                           + ')">' + data + '</a>';
+                     }
+                 },
+                {
+                    targets: -1,//-1表示最后一列
+                    width: "70px",//固定宽度
+                    render: function (data, type, full, meta) {
+
+                        return '<div class="hidden-sm hidden-xs action-buttons"><a class="green" href="#" onclick="langbenModify('
+                            + "'" + full.Id + "'"
+                            + ')"><i class="ace-icon fa fa-pencil bigger-130"></i></a><a class="red langbenDelete" href="#" id="'
+                          + full.Id
+                            + '"><i class="ace-icon fa fa-trash-o bigger-130"></i></a></div>' +
+                            '';
+                    }
+                }]
+
+        });
+
+        //查询按钮
+        $("#langbenQuery").click(function () {
+            //将查询条件按照分隔符拼接成字符串
+            var search = "";
+            $('#divQuery').find(":text,:selected,select,textarea,:hidden,:checked,:password").each(function () {
+                if (this.id)
+                    search = search + this.id + "&" + this.value + "^";
+                else
+                    search = search + this.name + "&" + this.value + "^";
+            });
+
+            $('#search').val(search)
+            //重新加载DataTable
+            table.ajax.reload();
+
+        });
+
+        // 数据删除
+        $('#langbenData tbody').on('click', 'a.langbenDelete', function () {
+
+            //  var data = tables.row($(this).parents('tr')).data(); //释放注释你会有惊喜
+            var id = $(this).attr("id");
+
+            $.confirm({
+                title: '提示',
+                content: "确认删除它吗？",
+                buttons: {
+                    ok: {
+                        text: "是的",
+                        btnClass: 'btn-primary',
+                        keys: ['enter'],
+                        action: function () {
+
+                            $.post("/GoldTemp/Delete", { query: id }, function (res) {
+
+                                if (res == "OK") {//删除成功
+
+                                    $.alert({
+                                        title: '提示',
+                                        content: '删除成功!',
+                                        autoClose: 'cancelAction|5000',
+                                        buttons: {
+                                            cancelAction: {
+                                                text: '知道了',
+                                                action: function () {
+                                                }
+                                            },
+                                        }
+                                    });
+
+                                    //重新加载DataTable
+                                    table.ajax.reload();
+
+                                }
+                                else {//删除失败
+
+                                    $.alert({
+                                        title: '提示',
+                                        content: res,
+                                        buttons: {
+                                            cancelAction: {
+                                                text: '知道了',
+                                                action: function () {
+                                                }
+                                            },
+                                        }
+                                    });
+
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: "稍等等",
+                        btnClass: 'btn',
+                        action: function () {
+                        }
+                    }
+                }
+            });
+        });
+
+
+    });
+    //创建
+    function langbenCreate() {
+
+        $("#contentBody").load("../GoldTemp/Create", function () {
+
+        });
+
+    }
+    //修改
+    function langbenModify(id) {
+
+        var url = "../GoldTemp/Edit/" + id;
+        $("#contentBody").load(url, function () {
+
+        });
+
+    };
+    //查看详细
+    function langbenView(id) {
+
+        $.dialog({
+            title: '',
+            columnClass: 'col-md-8 col-md-offset-2',
+            backgroundDismiss: true,
+            content: function () {
+                var self = this;
+                return $.ajax({
+                    url: '/GoldTemp/Details/' + id,
+                    method: 'get'
+                }).done(function (response) {
+
+                    self.setContent(response); // 加入获取的数据
+
+                }).fail(function () {
+
+                    self.setContent('出错了，请关了重试。');
+
+                });
+            }
+
+        });
+
+    };
+
+</script>
+

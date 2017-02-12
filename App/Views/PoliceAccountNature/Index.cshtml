@@ -1,0 +1,229 @@
+﻿@*户口性质*@
+@model Langben.DAL.PoliceAccountNature
+
+@using Common
+@using Models
+
+<div class="row">
+
+    <div class="col-md-1">
+        <button onclick="langbenCreate()" class="btn default"><i class="icon-plus"></i> 创建参保类型</button>
+    </div>
+
+    <div class="col-md-11">
+
+    </div>
+</div>
+<table id="langbenData" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.Name)</th>
+
+
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.Remark)</th>
+
+            <th>@Html.DisplayNameFor(model => model.CreateTime )</th>
+
+            <th data-visible='false'>@Html.DisplayNameFor(model => model.Id)</th>
+
+            <th data-orderable="false">
+                操作
+            </th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot></tfoot>
+</table>
+
+<script type="text/javascript" language="javascript">
+    $(function () {
+
+        var table = $('#langbenData').DataTable({
+            ajax: {
+                type: "POST",
+                url: '/PoliceAccountNature/PostData',
+                contentType: 'application/json; charset=utf-8',
+                data: function (data) {
+
+                    return data = JSON.stringify(data);
+                }
+            },
+            order: [[2, "desc"]],
+            columns: [
+
+            { data: 'Name' },
+  { data: 'Remark' },
+
+   {
+       data: 'CreateTime', render: function (data, type, full, meta) {
+
+           return dateConvert(data);
+
+       }
+   },
+            { data: 'Id' },
+
+
+               { data: "操作" }
+            ],
+            columnDefs: [
+
+                {
+                    targets: -1,//-1表示最后一列
+                    width: "70px",//固定宽度
+                    render: function (data, type, full, meta) {
+
+                        return '<div class="hidden-sm hidden-xs action-buttons"><a class="green" href="#" onclick="langbenModify('
+                            + "'" + full.Id + "'"
+                            + ')"><i class="ace-icon fa fa-pencil bigger-130"></i></a><a class="red langbenDelete" href="#" id="'
+                          + full.Id
+                            + '"><i class="ace-icon fa fa-trash-o bigger-130"></i></a></div>' +
+                            '';
+                    }
+                }]
+
+        });
+
+        //查询按钮
+        $("#langbenQuery").click(function () {
+            //将查询条件按照分隔符拼接成字符串
+            var search = "";
+            $('#divQuery').find(":text,:selected,select,textarea,:hidden,:checked,:password").each(function () {
+                if (this.id)
+                    search = search + this.id + "&" + this.value + "^";
+                else
+                    search = search + this.name + "&" + this.value + "^";
+            });
+
+            $('#search').val(search)
+            //重新加载DataTable
+            table.ajax.reload();
+
+        });
+
+        // 数据删除
+        $('#langbenData tbody').on('click', 'a.langbenDelete', function () {
+
+            //  var data = tables.row($(this).parents('tr')).data(); //释放注释你会有惊喜
+            var id = $(this).attr("id");
+
+            $.confirm({
+                title: '提示',
+                content: "确认删除它吗？",
+                buttons: {
+                    ok: {
+                        text: "是的",
+                        btnClass: 'btn-primary',
+                        keys: ['enter'],
+                        action: function () {
+                            $.ajax({
+                                type: 'DELETE',
+                                url: "/api/PoliceAccountNatureApi/Delete/" + id,
+
+                                dataType: 'json',
+                                 
+                                success: function (res) {
+
+                                    if (res.Message == "删除成功") {//删除成功
+                                        //重新加载DataTable
+
+                                        $.alert({
+                                            title: '提示',
+                                            content: '删除成功!',
+                                            autoClose: 'cancelAction|5000',
+                                            buttons: {
+                                                cancelAction: {
+                                                    text: '知道了',
+                                                    action: function () {
+                                                    }
+                                                },
+                                            }
+                                        });
+                                        table.ajax.reload();
+
+
+                                    }
+                                    else {//删除失败
+
+                                        $.alert({
+                                            title: '提示',
+                                            content: res,
+                                            buttons: {
+                                                cancelAction: {
+                                                    text: '知道了',
+                                                    action: function () {
+                                                    }
+                                                },
+                                            }
+                                        });
+
+                                    }
+                                },
+                                error: function () {
+                                    alert("错误");
+
+                                }
+                            })
+                           
+                        }
+                    },
+                    cancel: {
+                        text: "稍等等",
+                        btnClass: 'btn',
+                        action: function () {
+                        }
+                    }
+                }
+            });
+        });
+
+
+    });
+    //创建
+    function langbenCreate() {
+
+        $("#contentBody").load("../PoliceAccountNature/Create", function () {
+
+        });
+
+    }
+    //修改
+    function langbenModify(id) {
+
+        var url = "../PoliceAccountNature/Edit/" + id;
+        $("#contentBody").load(url, function () {
+
+        });
+
+    };
+    //查看详细
+    function langbenView(id) {
+
+        $.dialog({
+            title: '',
+            columnClass: 'col-md-8 col-md-offset-2',
+            backgroundDismiss: true,
+            content: function () {
+                var self = this;
+                return $.ajax({
+                    url: '/PoliceAccountNature/Details/' + id,
+                    method: 'get'
+                }).done(function (response) {
+
+                    self.setContent(response); // 加入获取的数据
+
+                }).fail(function () {
+
+                    self.setContent('出错了，请关了重试。');
+
+                });
+            }
+
+        });
+
+    };
+
+</script>
+

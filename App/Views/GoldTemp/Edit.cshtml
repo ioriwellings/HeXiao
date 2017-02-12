@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "~/Views/Shared/Edit.cshtml";
+}
+
+@model Langben.DAL.GoldTemp
+
+@using Common
+@using Models
+<div class="portlet-title">
+    <div class="caption">
+        <i class="icon-equalizer font-red-sunglo"></i>
+        <span class="caption-subject font-red-sunglo bold uppercase">目标模板</span>
+        <span class="caption-helper">一定要加油哦，我是来说明的。</span>
+    </div>
+</div>
+<div class="portlet-body form">
+    <!-- BEGIN FORM-->
+    <form action="/api/GoldTempApi/Put" class="form-horizontal">
+        <div class="form-body">
+            
+            <div class="row">
+ 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Name) })
+                            @Html.ValidationMessageFor(model => model.Name)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.State, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.State,Models.SysFieldModels.GetSysField("GoldTemp","State"),"请选择", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.State)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+ 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Vertion, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Vertion, new { onkeyup = "isInt(this)", @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Vertion) })
+                            @Html.ValidationMessageFor(model => model.Vertion)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Remark) })
+                            @Html.ValidationMessageFor(model => model.Remark)
+                            <span class="help-block">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+@Html.HiddenFor(model => model.CreateTime ) @Html.HiddenFor(model => model.CreatePerson ) @Html.HiddenFor(model => model.Id ) 
+
+        </div>
+        <div class="form-actions">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-primary">修改</button>
+                            <button type="button" class="btn default" onclick="BackList('/GoldTemp')">返回</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- END FORM-->
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        
+    });
+    
+
+
+</script>
+
+
+
