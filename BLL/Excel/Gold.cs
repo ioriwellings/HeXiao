@@ -19,7 +19,7 @@ namespace Langben.BLL
             string err = string.Empty;
             try
             {
-                string pathmy = @"D:\HeXiao\Solution\App";
+                string pathmy = @"D:\SheBaoHeXiao\App";
 
                 HSSFWorkbook _book = new HSSFWorkbook();
                 string xlsPath = pathmy + entity.GoldTempFullPath;
