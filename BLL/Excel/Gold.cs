@@ -19,10 +19,10 @@ namespace Langben.BLL
             string err = string.Empty;
             try
             {
-
+                string pathmy = @"D:\HeXiao\Solution\App";
 
                 HSSFWorkbook _book = new HSSFWorkbook();
-                string xlsPath = @"D:\HeXiao\Solution\App" + entity.GoldTempFullPath;
+                string xlsPath = pathmy + entity.GoldTempFullPath;
                 FileStream file = new FileStream(xlsPath, FileMode.Open, FileAccess.Read);
                 IWorkbook workbook = WorkbookFactory.Create(file);
                 ISheet sheet = workbook.GetSheetAt(0);
@@ -98,7 +98,7 @@ namespace Langben.BLL
 
                 //string xlsxPath = @"D:\HeXiao\Solution\App\up\standard\5.xlsx";
 
-                string xlsxPath = @"D:\HeXiao\Solution\App\up\standard\" + entity.Vertion + ".xlsx";
+                string xlsxPath = pathmy+@"\up\standard\" + entity.Vertion + ".xlsx";
 
                 FileStream fileStandard = new FileStream(xlsxPath, FileMode.Open, FileAccess.Read);
                 IWorkbook workbookStandard = WorkbookFactory.Create(fileStandard);
@@ -159,7 +159,7 @@ namespace Langben.BLL
 
                 var saveFileName = entity.GoldTempFullPath.Path(guid);
                 entity.Result = saveFileName;
-                string xlsPathFileName = @"D:\HeXiao\Solution\App\up\Result\" + saveFileName;
+                string xlsPathFileName = pathmy+@"\up\Result\" + saveFileName;
                 using (FileStream fileWrite = new FileStream(xlsPathFileName, FileMode.Create))
                 {
                     workbookStandard.Write(fileWrite);
