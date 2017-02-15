@@ -72,13 +72,13 @@
 
             });
             $("a[page]").click(function () {
-                var pageurl = "\\" + $(this).attr("page");
-                $("#contentBody").load(pageurl, function () {
+                var pageurl = $(this).attr("page");
+                $("#contentBody").load("\\" + pageurl, function () {
 
                 });
-
+                
                 $("ul.sub-menu li").find("a[page]").each(function () {
-
+                   
                     if ($(this).attr("page") == pageurl) {
 
                         if (lastLink != undefined) {
@@ -162,29 +162,7 @@
             <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
             <!-- END RESPONSIVE MENU TOGGLER -->
             <!-- BEGIN TOP NAVIGATION MENU -->
-            <div class="top-menu">
-                <ul class="nav navbar-nav pull-right">
-                    <!-- BEGIN NOTIFICATION DROPDOWN -->
-                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                    <!-- END NOTIFICATION DROPDOWN -->
-                    <!-- BEGIN USER LOGIN DROPDOWN -->
-                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                    <li class="dropdown dropdown-user">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            <img alt="" class="img-circle" src="/images/touxiang.png" /> <span class="username username-hide-on-mobile">  </span>
-                            <i class="fa fa-angle-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-default">
-                            <li> <a href="javascript:void(0);" onclick="CompanyInfo()"> <i class="icon-user"></i> 企业信息 </a> </li>
-                            <li> <a href="javascript:void(0);" onclick="GotoWarningSet()"> <i class="icon-bell"></i> 预警配置 </a> </li>
-                            <li> <a href="javascript:void(0);" onclick="GotoModifyPassWord()"> <i class="icon-lock"></i> 修改密码 </a> </li>
-                            <li class="divider"> </li>
-                            <li> <a href="/Login/Logout"> <i class="icon-key"></i> 退出系统 </a> </li>
-                        </ul>
-                    </li>
-                    <!-- END USER LOGIN DROPDOWN -->
-                </ul>
-            </div>
+    
             <!-- END TOP NAVIGATION MENU -->
         </div>
         <!-- END HEADER INNER -->
@@ -201,16 +179,17 @@
                 <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" id="AllMenu">
 
 
-                    <li id='liRecruit'>
+                    <li id='liRecruit' class="active open">
                         <a href='javascript:void(0);'>
                             <span class='tu2011'>
                                 <span class='path1'></span><span class='path2'></span>
                             </span>
-                            <span class='title'>社保核销</span> <span class='selected'></span> <span class='arrow'></span>
+                            <span class='title'>社保核销</span> <span class='selected'></span> 
+                            <span class='arrow open'></span>
                         </a>
                         <ul id='ulRecruit' class='sub-menu'>
 
-                            <li><a href='javascript:void(0);' page="MYResult" id="1311011720196053073ccff5a1c7c">制作转换</a></li>
+                            <li class="active"><a href='javascript:void(0);' page="MYResult" id="1311011720196053073ccff5a1c7c">制作转换</a></li>
                             <li><a href='javascript:void(0);'>核销对比</a></li>
                           
                         </ul>

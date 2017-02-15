@@ -15,9 +15,9 @@ namespace Langben.BLL
         {
             switch (vertion)
             {
-                case 5://用户的唯一表示
+                case 36319772://用户的唯一表示
 
-                   
+                    return new Standard36319772();
 
                 default:
                     return new Standard36319772();
@@ -30,6 +30,8 @@ namespace Langben.BLL
                 case "36319772001"://源模板（供应商模板）的唯一标识
 
                     return Relation36319772001.relation;
+                case "36319772002"://源模板（供应商模板）的唯一标识
+                    return Relation36319772002.relation;
                 default:
                     return Relation36319772002.relation;
             }
