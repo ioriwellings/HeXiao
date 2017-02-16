@@ -40,6 +40,10 @@
         <AssociationConnector Association="SysModel.FK_SYSMESSA_REFERENCE_SYSMESSA" />
         <AssociationConnector Association="SysModel.SysMenuSysOperation" />
         <AssociationConnector Association="SysModel.SysRoleSysPerson" />
+        <EntityTypeShape EntityType="SysModel.MatchDetail" Width="1.5" PointX="16.625" PointY="14" />
+        <EntityTypeShape EntityType="SysModel.Rule" Width="1.5" PointX="14.375" PointY="14.5" />
+        <AssociationConnector Association="SysModel.FK_MATCHDET_REFERENCE_RULE" />
+        <EntityTypeShape EntityType="SysModel.MatchResult" Width="1.5" PointX="17.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

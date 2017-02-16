@@ -63,6 +63,45 @@
           <Property Name="UpdatePerson" Type="nvarchar" MaxLength="200" />
           <Property Name="Vertion" Type="int" />
         </EntityType>
+        <EntityType Name="MatchDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="RuleId" Type="nvarchar" MaxLength="36" />
+          <Property Name="ChangeMonth" Type="int" />
+          <Property Name="BaseExcel" Type="int" />
+          <Property Name="MatchExcel" Type="int" />
+          <Property Name="BaseMatch" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="4000" />
+          <Property Name="State" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="CreatePerson" Type="nvarchar" MaxLength="200" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="UpdatePerson" Type="nvarchar" MaxLength="200" />
+          <Property Name="Vertion" Type="int" />
+        </EntityType>
+        <EntityType Name="MatchResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="Result" Type="nvarchar" MaxLength="200" />
+          <Property Name="BasePath" Type="nvarchar" MaxLength="200" />
+          <Property Name="BaseFullPath" Type="nvarchar" MaxLength="36" />
+          <Property Name="GoldTempPath" Type="nvarchar" MaxLength="200" />
+          <Property Name="GoldTempFullPath" Type="nvarchar" MaxLength="36" />
+          <Property Name="RuleId" Type="nvarchar" MaxLength="36" />
+          <Property Name="RuleName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="4000" />
+          <Property Name="State" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="CreatePerson" Type="nvarchar" MaxLength="200" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="UpdatePerson" Type="nvarchar" MaxLength="200" />
+          <Property Name="Vertion" Type="int" />
+        </EntityType>
         <EntityType Name="MYResult">
           <Key>
             <PropertyRef Name="Id" />
@@ -130,6 +169,20 @@
           <Property Name="EmployeeSub" Type="int" />
           <Property Name="EmployeeDigit" Type="int" />
           <Property Name="IsDefault" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="4000" />
+          <Property Name="State" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="CreatePerson" Type="nvarchar" MaxLength="200" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="UpdatePerson" Type="nvarchar" MaxLength="200" />
+          <Property Name="Vertion" Type="int" />
+        </EntityType>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="36" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
           <Property Name="Remark" Type="nvarchar" MaxLength="4000" />
           <Property Name="State" Type="nvarchar" MaxLength="200" />
           <Property Name="CreateTime" Type="datetime" />
@@ -396,6 +449,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MATCHDET_REFERENCE_RULE">
+          <End Role="Rule" Type="Self.Rule" Multiplicity="0..1" />
+          <End Role="MatchDetail" Type="Self.MatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rule">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MatchDetail">
+              <PropertyRef Name="RuleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_POLICEIN_REFERENCE_INSURANC">
           <End Role="Insurance" Type="Self.Insurance" Multiplicity="0..1" />
           <End Role="PoliceInsurance" Type="Self.PoliceInsurance" Multiplicity="*" />
@@ -569,9 +634,12 @@
           <EntitySet Name="FileUploader" EntityType="Self.FileUploader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GoldTemp" EntityType="Self.GoldTemp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Insurance" EntityType="Self.Insurance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchDetail" EntityType="Self.MatchDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchResult" EntityType="Self.MatchResult" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MYResult" EntityType="Self.MYResult" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PoliceAccountNature" EntityType="Self.PoliceAccountNature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PoliceInsurance" EntityType="Self.PoliceInsurance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rule" EntityType="Self.Rule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysAnnouncement" EntityType="Self.SysAnnouncement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysDepartment" EntityType="Self.SysDepartment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysEmail" EntityType="Self.SysEmail" Schema="dbo" store:Type="Tables" />
@@ -592,6 +660,10 @@
           <AssociationSet Name="FK_CITY_REFERENCE_CITY" Association="Self.FK_CITY_REFERENCE_CITY">
             <End Role="City" EntitySet="City" />
             <End Role="City1" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MATCHDET_REFERENCE_RULE" Association="Self.FK_MATCHDET_REFERENCE_RULE">
+            <End Role="Rule" EntitySet="Rule" />
+            <End Role="MatchDetail" EntitySet="MatchDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_POLICEIN_REFERENCE_INSURANC" Association="Self.FK_POLICEIN_REFERENCE_INSURANC">
             <End Role="Insurance" EntitySet="Insurance" />
@@ -729,6 +801,13 @@
             <End Role="SysPerson" EntitySet="SysPerson" />
             <End Role="SysRole" EntitySet="SysRole" />
           </AssociationSet>
+          <EntitySet Name="MatchDetail" EntityType="SysModel.MatchDetail" />
+          <EntitySet Name="Rule" EntityType="SysModel.Rule" />
+          <AssociationSet Name="FK_MATCHDET_REFERENCE_RULE" Association="SysModel.FK_MATCHDET_REFERENCE_RULE">
+            <End Role="Rule" EntitySet="Rule" />
+            <End Role="MatchDetail" EntitySet="MatchDetail" />
+          </AssociationSet>
+          <EntitySet Name="MatchResult" EntityType="SysModel.MatchResult" />
         </EntityContainer>
         <EntityType Name="City">
           <Key>
@@ -1259,6 +1338,73 @@
           <End Type="SysModel.SysPerson" Role="SysPerson" Multiplicity="*" />
           <End Type="SysModel.SysRole" Role="SysRole" Multiplicity="*" />
         </Association>
+        <EntityType Name="MatchDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RuleId" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="ChangeMonth" Type="Int32" />
+          <Property Name="BaseExcel" Type="Int32" />
+          <Property Name="MatchExcel" Type="Int32" />
+          <Property Name="BaseMatch" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatePerson" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="UpdatePerson" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Vertion" Type="Int32" />
+          <NavigationProperty Name="Rule" Relationship="SysModel.FK_MATCHDET_REFERENCE_RULE" FromRole="MatchDetail" ToRole="Rule" />
+        </EntityType>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatePerson" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="UpdatePerson" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Vertion" Type="Int32" />
+          <NavigationProperty Name="MatchDetail" Relationship="SysModel.FK_MATCHDET_REFERENCE_RULE" FromRole="Rule" ToRole="MatchDetail" />
+        </EntityType>
+        <Association Name="FK_MATCHDET_REFERENCE_RULE">
+          <End Type="SysModel.Rule" Role="Rule" Multiplicity="0..1" />
+          <End Type="SysModel.MatchDetail" Role="MatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rule">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MatchDetail">
+              <PropertyRef Name="RuleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MatchResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BasePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BaseFullPath" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="GoldTempPath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="GoldTempFullPath" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="RuleId" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="RuleName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatePerson" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="UpdatePerson" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Vertion" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1666,6 +1812,62 @@
               <ScalarProperty Name="Id" ColumnName="SysPersonId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="MatchDetail">
+            <EntityTypeMapping TypeName="SysModel.MatchDetail">
+              <MappingFragment StoreEntitySet="MatchDetail">
+                <ScalarProperty Name="Vertion" ColumnName="Vertion" />
+                <ScalarProperty Name="UpdatePerson" ColumnName="UpdatePerson" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="CreatePerson" ColumnName="CreatePerson" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="BaseMatch" ColumnName="BaseMatch" />
+                <ScalarProperty Name="MatchExcel" ColumnName="MatchExcel" />
+                <ScalarProperty Name="BaseExcel" ColumnName="BaseExcel" />
+                <ScalarProperty Name="ChangeMonth" ColumnName="ChangeMonth" />
+                <ScalarProperty Name="RuleId" ColumnName="RuleId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rule">
+            <EntityTypeMapping TypeName="SysModel.Rule">
+              <MappingFragment StoreEntitySet="Rule">
+                <ScalarProperty Name="Vertion" ColumnName="Vertion" />
+                <ScalarProperty Name="UpdatePerson" ColumnName="UpdatePerson" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="CreatePerson" ColumnName="CreatePerson" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchResult">
+            <EntityTypeMapping TypeName="SysModel.MatchResult">
+              <MappingFragment StoreEntitySet="MatchResult">
+                <ScalarProperty Name="Vertion" ColumnName="Vertion" />
+                <ScalarProperty Name="UpdatePerson" ColumnName="UpdatePerson" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="CreatePerson" ColumnName="CreatePerson" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="RuleName" ColumnName="RuleName" />
+                <ScalarProperty Name="RuleId" ColumnName="RuleId" />
+                <ScalarProperty Name="GoldTempFullPath" ColumnName="GoldTempFullPath" />
+                <ScalarProperty Name="GoldTempPath" ColumnName="GoldTempPath" />
+                <ScalarProperty Name="BaseFullPath" ColumnName="BaseFullPath" />
+                <ScalarProperty Name="BasePath" ColumnName="BasePath" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

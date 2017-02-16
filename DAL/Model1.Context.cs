@@ -47,5 +47,8 @@ namespace Langben.DAL
         public virtual DbSet<SysOperation> SysOperation { get; set; }
         public virtual DbSet<SysPerson> SysPerson { get; set; }
         public virtual DbSet<SysRole> SysRole { get; set; }
+        public virtual DbSet<MatchDetail> MatchDetail { get; set; }
+        public virtual DbSet<Rule> Rule { get; set; }
+        public virtual DbSet<MatchResult> MatchResult { get; set; }
     }
 }

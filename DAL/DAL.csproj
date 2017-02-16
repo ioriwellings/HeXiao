@@ -73,6 +73,16 @@
     <Compile Include="Insurance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="MatchDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MatchDetailMeta.cs" />
+    <Compile Include="MatchDetailRepository.cs" />
+    <Compile Include="MatchResult.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MatchResultMeta.cs" />
+    <Compile Include="MatchResultRepository.cs" />
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -110,6 +120,11 @@
     <Compile Include="InsuranceRepository.cs" />
     <Compile Include="GoldTempMeta.cs" />
     <Compile Include="GoldTempRepository.cs" />
+    <Compile Include="Rule.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RuleMeta.cs" />
+    <Compile Include="RuleRepository.cs" />
     <Compile Include="SysAnnouncement.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -234,4 +249,3 @@
   </Target>
   -->
 </Project>
-

@@ -1,0 +1,105 @@
+﻿@*对比结果*@
+@model Langben.DAL.MatchResult
+
+@using Common
+@using Models
+
+<div class="row">
+
+    <div class="col-md-1">
+        <button onclick="langbenCreate()" class="btn default"><i class="icon-plus"></i>核销对比</button>
+       
+    </div>
+
+    <div class="col-md-11">
+
+    </div>
+</div>
+<table id="langbenData" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.Result)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.BasePath)</th>
+
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.GoldTempPath)</th>
+
+
+            <th>@Html.DisplayNameFor(model => model.CreateTime)</th>
+
+
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot></tfoot>
+</table>
+
+<script type="text/javascript" language="javascript">
+    $(function () {
+
+        var table = $('#langbenData').DataTable({
+            ajax: {
+                type: "POST",
+                url: '/MatchResult/PostData',
+                contentType: 'application/json; charset=utf-8',
+                data: function (data) {
+
+                    return JSON.stringify(data);
+                }
+            },
+            order: [[3, "desc"]],
+            columns: [
+
+            { data: 'Result' },
+
+            { data: 'BasePath' },
+
+            { data: 'GoldTempPath' },
+
+
+            {
+                data: 'CreateTime', render: function (data, type, full, meta) {
+
+                    return dateConvert(data);
+
+                }
+            }
+            ],
+            columnDefs: [
+                 {
+                     targets: 0,//第一列
+                     render: function (data, type, full, meta) {
+
+                         data = (data != null) ? data : '';
+
+                         return '<a href="#" onclick="langbenView('
+                           + "'" + data + "'"
+                           + ')">' + data + '</a>';
+                     }
+                 }]
+
+        });
+
+ 
+    });
+    //创建
+    function langbenCreate() {
+
+        $("#contentBody").load("../MatchResult/Create", function () {
+
+        });
+
+    }
+ 
+
+    //查看详细
+    function langbenView(id) {
+
+        window.location.href = '/up/Result/' + id;
+
+
+    };
+
+</script>
+

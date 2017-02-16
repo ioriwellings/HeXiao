@@ -71,6 +71,7 @@
     <Compile Include="Framework\CalculateResult.cs" />
     <Compile Include="Excel\DataFactory.cs" />
     <Compile Include="Excel\Gold.cs" />
+    <Compile Include="Framework\MyMatch.cs" />
     <Compile Include="Framework\Standard.cs" />
     <Compile Include="Framework\AccountBLL.cs" />
     <Compile Include="Framework\DataOfDiffrent.cs" />
@@ -86,6 +87,8 @@
     <Compile Include="HeXiao\GoldTempBLL.cs" />
     <Compile Include="HeXiao\CityBLL.cs" />
     <Compile Include="HeXiao\InsuranceBLL.cs" />
+    <Compile Include="MatchDetailBLL.cs" />
+    <Compile Include="MatchResultBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PoliceInsuranceBLL.cs" />
     <Compile Include="PoliceAccountNatureBLL.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="MYResultBLL.cs" />
     <Compile Include="InsuranceBLL.cs" />
     <Compile Include="GoldTempBLL.cs" />
+    <Compile Include="RuleBLL.cs" />
     <Compile Include="SysDepartmentBLL.cs" />
     <Compile Include="SysEmailBLL.cs" />
     <Compile Include="SysEmailTempBLL.cs" />

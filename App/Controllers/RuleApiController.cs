@@ -17,7 +17,7 @@ namespace Langben.App.Controllers
     /// <summary>
     /// 政策主表
     /// </summary>
-    public class InsuranceApiController : BaseApiController
+    public class RuleApiController : BaseApiController
     {
        
         /// <summary>
@@ -25,9 +25,9 @@ namespace Langben.App.Controllers
         /// </summary>
         /// <param name="id">编号</param>
         /// <returns></returns>
-        public Insurance Get(string id)
+        public Rule Get(string id)
         {
-            Insurance item = m_BLL.GetById(id);
+            Rule item = m_BLL.GetById(id);
             return item;
         }
  
@@ -36,7 +36,7 @@ namespace Langben.App.Controllers
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <returns></returns>
-        public Common.ClientResult.Result Post([FromBody]Insurance entity)
+        public Common.ClientResult.Result Post([FromBody]Rule entity)
         {           
 
             Common.ClientResult.Result result = new Common.ClientResult.Result();
@@ -44,10 +44,11 @@ namespace Langben.App.Controllers
             {
                 string currentPerson = GetCurrentPerson();
                 entity.CreateTime = DateTime.Now;
-                entity.Id = Result.GetNewId(); 
+
+                entity.Vertion = GetVersion();
                 entity.CreatePerson = currentPerson;
 
-                entity.Vertion = GetVersion();   
+                entity.Id = Result.GetNewId();   
                 string returnValue = string.Empty;
                 if (m_BLL.Create(ref validationErrors, entity))
                 {
@@ -86,7 +87,7 @@ namespace Langben.App.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>  
-        public Common.ClientResult.Result Put([FromBody]Insurance entity)
+        public Common.ClientResult.Result Put([FromBody]Rule entity)
         {
             Common.ClientResult.Result result = new Common.ClientResult.Result();
             if (entity != null && ModelState.IsValid)
@@ -167,14 +168,14 @@ namespace Langben.App.Controllers
             return result;
         }
 
-        IBLL.IInsuranceBLL m_BLL;
+        IBLL.IRuleBLL m_BLL;
 
         ValidationErrors validationErrors = new ValidationErrors();
 
-        public InsuranceApiController()
-            : this(new InsuranceBLL()) { }
+        public RuleApiController()
+            : this(new RuleBLL()) { }
 
-        public InsuranceApiController(InsuranceBLL bll)
+        public RuleApiController(RuleBLL bll)
         {
             m_BLL = bll;
         }

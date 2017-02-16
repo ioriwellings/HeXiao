@@ -175,7 +175,11 @@
     <Compile Include="Controllers\GoldTempController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeRightController.cs" />
+    <Compile Include="Controllers\MatchResultController.cs" />
+    <Compile Include="Controllers\MatchResultApiController.cs" />
+    <Compile Include="Controllers\RuleApiController.cs" />
     <Compile Include="Controllers\InsuranceApiController.cs" />
+    <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\InsuranceController.cs" />
     <Compile Include="Controllers\MYResultApiController.cs" />
     <Compile Include="Controllers\MYResultController.cs" />
@@ -1935,6 +1939,14 @@
     <Content Include="Views\PoliceInsurance\Edit.cshtml" />
     <Content Include="Views\PoliceInsurance\Index.cshtml" />
     <Content Include="up\standard\36319772.xlsx" />
+    <Content Include="Views\Rule\Create.cshtml" />
+    <Content Include="Views\Rule\Details.cshtml" />
+    <Content Include="Views\Rule\Edit.cshtml" />
+    <Content Include="Views\Rule\Index.cshtml" />
+    <Content Include="Views\MatchResult\Create.cshtml" />
+    <Content Include="Views\MatchResult\Details.cshtml" />
+    <Content Include="Views\MatchResult\Edit.cshtml" />
+    <Content Include="Views\MatchResult\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
