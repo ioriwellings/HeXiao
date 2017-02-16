@@ -18,7 +18,40 @@ namespace Langben.App.Controllers
     /// </summary>
     public class MatchResultController : BaseController
     {
+        [HttpPost]
+        public ActionResult BaoGaoShangChuan()//文档上传
+        {
+            
+            
 
+            string msg = string.Empty;
+            if (Request.Files.Count > 0)//前端获取文件选择控件值
+            {
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    System.Web.HttpPostedFileBase pstFile = Request.Files[i];//获取页面选择的文件
+                    string upfile = pstFile.FileName;//文件名
+                    UploadFiles upFiles = new UploadFiles();
+                    //msg += upFiles.ReportToUpload(pstFile, upfile, i);//上传文件
+
+                }
+            }
+             
+            msg = msg.Substring(1, msg.Length - 1).TrimEnd('}');//去掉头尾｛｝
+            string[] mg = msg.Split(',');
+            for (int i = 0; i < mg.Length; i++)//解析上传文件方法返回的字符串
+            {
+                string[] m = mg[i].Split('*');
+                switch (m[0].ToString())
+                {
+                   
+                    default:
+                        break;
+                }
+            }
+            
+            return View();
+        }
         /// <summary>
         /// 列表
         /// </summary>
