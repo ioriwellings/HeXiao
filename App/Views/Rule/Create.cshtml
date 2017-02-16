@@ -48,7 +48,7 @@
 
             </div>
             <div class="row">
-                <h3 class="form-section">备注</h3>
+             
                 <div class="col-md-12">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
@@ -99,7 +99,7 @@
                 $.ajax({
                     url: this.action,
                     type: "Post",
-                    data: $(this).serialize(),
+                    data: $(this).serialize(),//组装对象
                     dataType: "json",
                     success: function (data) {
 
