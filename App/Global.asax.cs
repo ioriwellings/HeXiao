@@ -10,7 +10,7 @@ using System.Web.Routing;
  
 namespace App
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : System.Web.HttpApplication 
     {
         /// <summary>  
         /// 解决BaseApiController中的HttpContext.Current.Session为null问题 zhangerhu
