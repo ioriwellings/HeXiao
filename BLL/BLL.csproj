@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Excel\GoldMatch.cs" />
+    <Compile Include="Excel\Relation36319772003.cs" />
     <Compile Include="Excel\Relation36319772001.cs" />
     <Compile Include="Excel\Relation36319772002.cs" />
     <Compile Include="Excel\Standard36319772.cs" />
