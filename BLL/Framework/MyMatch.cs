@@ -10,7 +10,7 @@ namespace Langben.BLL
     /// <summary>
     /// 标准模板
     /// </summary>
-    public partial class MyMatch
+    public partial class MatchStand
     {
         public Dictionary<int, CalculateResult> list = new Dictionary<int, CalculateResult>();
         public string Condition { get; set; }
@@ -20,10 +20,23 @@ namespace Langben.BLL
             get { return list[i]; }
             set { list[i] = value; }
         }
-        public virtual bool Calculate(List<int> match) { return true; }
+        /// <summary>
+        /// 这是不对的，应该是匹配项相加
+        /// </summary>
+        /// <returns></returns>
+        public bool Calculate()
+        { 
+            //
+            foreach (var item in list.Keys)
+            {
+                Condition += list[item].Value.Trim();
+            }
+
+            return true;
+        }
         //缴纳基数
 
-        
+
     }
 
 }

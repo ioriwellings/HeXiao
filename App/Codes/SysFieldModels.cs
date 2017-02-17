@@ -35,32 +35,38 @@ namespace Models
                 List<SelectList> sl = new List<SelectList>();
                 return new SelectList(sl);
             }
-            var account = AccountModel.GetCurrentAccount();
-            //var vertion=account.
+        //    var account = AccountModel.GetCurrentAccount();
+            var vertion = AccountModel.GetVersion();
             if (colum == "GoldTempId")
             {
                 GoldTempBLL gold = new GoldTempBLL();
 
-                return new SelectList(gold.GetByVertion(36319772), "Id", "Name");
+                return new SelectList(gold.GetByVertion(vertion), "Id", "Name");
             }
             else if (colum == "Style")
             {
                 InsuranceBLL ins = new InsuranceBLL();
 
-                return new SelectList(ins.GetByVertion(36319772), "Id", "Name");
+                return new SelectList(ins.GetByVertion(vertion), "Id", "Name");
             }
             else if (colum == "CityId")
             {
                 CityBLL city = new CityBLL();
 
-                return new SelectList(city.GetByVertion(36319772), "Name", "Name");
+                return new SelectList(city.GetByVertion(vertion), "Name", "Name");
             }
             else if (colum == "PoliceAccountNatureId")
             {
                 PoliceAccountNatureBLL police = new PoliceAccountNatureBLL();
 
-                return new SelectList(police.GetByVertion(36319772), "Name", "Name");
-            }//
+                return new SelectList(police.GetByVertion(vertion), "Name", "Name");
+            }
+            else if (colum == "RuleId")
+            {
+                RuleBLL rule = new RuleBLL();
+
+                return new SelectList(rule.GetByVertion(vertion), "Id", "Name");
+            }
             ISysFieldHander baseDDL = new SysFieldHander();
             return new SelectList(baseDDL.GetSysField(table, colum), "MyTexts", "MyTexts");
 

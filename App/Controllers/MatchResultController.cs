@@ -19,38 +19,39 @@ namespace Langben.App.Controllers
     public class MatchResultController : BaseController
     {
         [HttpPost]
-        public ActionResult BaoGaoShangChuan()//文档上传
+        public ActionResult Create(MatchResult entity)//文档上传
         {
-            
-            
-
             string msg = string.Empty;
-            if (Request.Files.Count > 0)//前端获取文件选择控件值
+            if (Request.Files.Count != 2)//前端获取文件选择控件值
             {
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
-                    System.Web.HttpPostedFileBase pstFile = Request.Files[i];//获取页面选择的文件
-                    string upfile = pstFile.FileName;//文件名
+                    System.Web.HttpPostedFileBase postedFile = Request.Files[i];//获取页面选择的文件                   
                     UploadFiles upFiles = new UploadFiles();
-                    //msg += upFiles.ReportToUpload(pstFile, upfile, i);//上传文件
+                    msg = upFiles.fileSaveAsResult(postedFile);//上传文件
+                    if (i == 0)
+                    {
+                        entity.BasePath = postedFile.FileName;
+                        entity.BaseFullPath = msg;
 
+                    }
+                    else
+                    {
+                        entity.GoldTempPath = postedFile.FileName;
+                        entity.GoldTempFullPath = msg;
+
+                    }
                 }
             }
-             
-            msg = msg.Substring(1, msg.Length - 1).TrimEnd('}');//去掉头尾｛｝
-            string[] mg = msg.Split(',');
-            for (int i = 0; i < mg.Length; i++)//解析上传文件方法返回的字符串
+            else
             {
-                string[] m = mg[i].Split('*');
-                switch (m[0].ToString())
-                {
-                   
-                    default:
-                        break;
-                }
+
+                return View();
             }
-            
-            return View();
+
+            entity.Result= GoldMatch.Make(entity);
+
+            return View("/home/index");
         }
         /// <summary>
         /// 列表
@@ -62,34 +63,13 @@ namespace Langben.App.Controllers
 
             return View();
         }
-        /// <summary>
-        /// 列表
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult IndexSef()
-        {
 
-            return View();
-        }
-
-        /// <summary>
-        /// 查看详细
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [SupportFilter]
-        public ActionResult Details(string id)
-        {
-            MatchResult item = m_BLL.GetById(id);
-            return View(item);
-
-        }
         public ActionResult PostData(DTParameters getParam)
         {
             int total = 0;
-            int page = (getParam.Start != 0) ? 1 : ((getParam.Start / getParam.Length) + 1);int vertion = GetVersion();getParam.Search.Value += "^VertionDDL_Int&" + vertion.ToString();
+            int page = (getParam.Start != 0) ? 1 : ((getParam.Start / getParam.Length) + 1); int vertion = GetVersion(); getParam.Search.Value += "^VertionDDL_Int&" + vertion.ToString();
 
-          
+
             List<MatchResult> queryData = m_BLL.GetByParam(null, page, getParam.Length, getParam.DescOrAsc, getParam.SortOrder, getParam.Search.Value, ref total);
             DTResult<MatchResult> result = new DTResult<MatchResult>
             {
@@ -114,18 +94,7 @@ namespace Langben.App.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 首次编辑
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns></returns> 
-        [SupportFilter]
-        public ActionResult Edit(string id)
-        {
-            ViewBag.Id = id;
-            MatchResult item = m_BLL.GetById(id);
-            return View(item);
-        }
+
         IBLL.IMatchResultBLL m_BLL;
         ValidationErrors validationErrors = new ValidationErrors();
         public MatchResultController()

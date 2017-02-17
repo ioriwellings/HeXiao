@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Excel\GoldMatch.cs" />
     <Compile Include="Excel\Relation36319772001.cs" />
     <Compile Include="Excel\Relation36319772002.cs" />
     <Compile Include="Excel\Standard36319772.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Framework\SysFieldHander.cs" />
     <Compile Include="Framework\SysMenuBLL.cs" />
     <Compile Include="Framework\SysMenuSysRoleSysOperationBLL.cs" />
+    <Compile Include="HeXiao\RuleBLL.cs" />
     <Compile Include="HeXiao\PoliceInsuranceBLL.cs" />
     <Compile Include="HeXiao\PoliceAccountNatureBLL.cs" />
     <Compile Include="HeXiao\GoldTempBLL.cs" />

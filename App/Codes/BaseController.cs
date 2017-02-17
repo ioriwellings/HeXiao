@@ -26,7 +26,7 @@ namespace Models
              /// <returns></returns>
         public int GetVersion()
         {
-            return 36319772;
+            return AccountModel.GetVersion();
 
 
         }
@@ -66,7 +66,7 @@ namespace Models
                 account.Name = loginCookie.Values["Name"];
                 return account;
             }
-            //var account = AccountModel.GetCurrentAccount();
+            var accounts = AccountModel.GetCurrentAccount();
 
             return account;
 

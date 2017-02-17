@@ -1,5 +1,5 @@
 ﻿
-@model Langben.DAL.MYResult
+@model Langben.DAL.MatchResult
 
 @using Common
 @using Models
@@ -14,15 +14,15 @@
     </div>
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
-        <form action="/api/MYResultApi/Post" class="form-horizontal">
+        <form id="form1" action="/MatchResult/Create" method="post" class="form-horizontal" enctype="multipart/form-data">
             <div class="form-body">
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label col-md-4" for="GoldTempPath">比较规则</label>
+                            <label class="control-label col-md-4" for="RuleId">比较规则</label>
                             <div class="col-md-8">
-                                @Html.DropDownListFor(model => model.GoldTempId, Models.SysFieldModels.GetSysField("MYResult", "GoldTempId"), new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.RuleId, Models.SysFieldModels.GetSysField("MYResult", "RuleId"), new { @class = "form-control" })
 
                             </div>
                         </div>
@@ -32,10 +32,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="GoldTempPath">基础文件</label>
+                            <label class="control-label col-md-2" for="BasePath">基础文件</label>
                             <div class="col-md-10">
-                                <input name="name" type="file" id="file" />
-                              
+                                <input name="BasePath" type="file" id="BasePath" />
+
                             </div>
                         </div>
                     </div>
@@ -46,8 +46,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="GoldTempPath">对比文件</label>
                             <div class="col-md-10">
-                                <input name="name" type="file" id="file" />
-                               
+                                <input name="GoldTempPath" type="file" id="GoldTempPath" />
+
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,24 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
-                                <button id="xuanji" type="button" onclick="publish();" class="btn btn-primary">进行对比</button>
+                                <input id="xuanji" value="进行对比" type="submit" onclick="javascript:
+        var RuleId = $('#RuleId').val();
+        if (RuleId == null || RuleId == '') {
+            alert('规则不能为空');
+            return false;
+        } else {
+            $('#RuleName').val($('#RuleId').find('option:selected').text());
+        }
+        if ($('#BasePath').val() == '') {
+
+            alert('请选择基础上传文件！');
+            return false;
+        }
+        if ($('#GoldTempPath').val() == '') {
+
+            alert('请选择对比上传文件！');
+            return false;
+        }" class="btn btn-primary" />
                                 <button type="button" class="btn default" onclick="BackList('/MatchResult')">返回</button>
                             </div>
                         </div>
@@ -68,62 +85,16 @@
                     </div>
                 </div>
             </div>
-            <div id="hiddenPicture"></div>
+             <input type="hidden" value="" name="RuleName" id="RuleName"/>
         </form>
         <!-- END FORM-->
     </div>
 </div>
- 
+
 <script type="text/javascript">
-    function publish() {
-        var GoldTempId = $("#GoldTempId").val();//
-        if (GoldTempId == null || GoldTempId == '') {
-            alert('目标模板不能为空');
-            return false;
-        }
-        var Style = $("#Style").val();//
-        if (Style == null || Style == '') {
-            alert('政策不能为空');
-            return false;
-        }
-        $("#xuanji").attr('disabled', true);
 
 
-        $.ajax({
-            url: "/api/MyResultApi/Post",
-            type: "Post",
-            dataType: "json",
-            data: {
-              GoldTempId: GoldTempId
-            , GoldTempName: $("#GoldTempId").find("option:selected").text()
-            , Style: $("#Style").find("option:selected").text()
-            , GoldTempPath: $(".GoldTempPath").val()
-            , GoldTempFullPath: $(".GoldTempFullPath").val()
-            , InsuranceId: $("#Style").val()
 
-            },
-            success: function (data) {
-                if (data.Code == 1) {
-                    $("#contentBody").load("/MatchResult", function () {
-
-                    });
-                   
-                } else {
-                    $("#xuanji").attr('disabled', false);
-                    alert('发布失败，请联系管理员ben@langben.com');
-
-
-                }
-
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $("#xuanji").attr('disabled', false);
-                alert("获取数据失败");
-            }
-        });
-    }
-
-  
 </script>
 
 

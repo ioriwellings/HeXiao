@@ -15,7 +15,12 @@ namespace Models
     /// </summary>
     public class AccountModel
     {
+        public static int GetVersion()
+        {
+            return 36319772;
 
+
+        }
         /// <summary>
         /// 获取当前登陆人的用户名
         /// </summary>
