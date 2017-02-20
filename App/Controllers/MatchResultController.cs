@@ -22,7 +22,7 @@ namespace Langben.App.Controllers
         public ActionResult Create(MatchResult entity)//文档上传
         {
             string msg = string.Empty;
-            if (Request.Files.Count != 2)//前端获取文件选择控件值
+            if (Request.Files.Count == 2)//前端获取文件选择控件值
             {
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
@@ -48,10 +48,10 @@ namespace Langben.App.Controllers
 
                 return View();
             }
-
+            entity.Vertion = GetVersion();
             entity.Result= GoldMatch.Make(entity);
 
-            return View("/home/index");
+            return Redirect("/home/index");
         }
         /// <summary>
         /// 列表
@@ -67,7 +67,9 @@ namespace Langben.App.Controllers
         public ActionResult PostData(DTParameters getParam)
         {
             int total = 0;
-            int page = (getParam.Start != 0) ? 1 : ((getParam.Start / getParam.Length) + 1); int vertion = GetVersion(); getParam.Search.Value += "^VertionDDL_Int&" + vertion.ToString();
+            int page = (getParam.Start != 0) ? 1 : ((getParam.Start / getParam.Length) + 1);
+            int vertion = GetVersion();
+            getParam.Search.Value += "^VertionDDL_Int&" + vertion.ToString();
 
 
             List<MatchResult> queryData = m_BLL.GetByParam(null, page, getParam.Length, getParam.DescOrAsc, getParam.SortOrder, getParam.Search.Value, ref total);

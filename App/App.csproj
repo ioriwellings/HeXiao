@@ -1948,6 +1948,7 @@
     <Content Include="Views\MatchResult\Details.cshtml" />
     <Content Include="Views\MatchResult\Edit.cshtml" />
     <Content Include="Views\MatchResult\Index.cshtml" />
+    <Content Include="up\standard\result.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
