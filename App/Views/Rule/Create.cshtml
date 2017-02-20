@@ -35,17 +35,15 @@
 
             </div>
             <div class="row">
-                <h3 class="form-section">
-                    匹配项设定    <button type="button" class="btn btn-success" onclick="BackList('/Rule')">增加</button>
+                <h3 class="form-section" id="mpTitle">
+                    匹配项设定    <button type="button" class="btn btn-success" id="btnMpAdd">增加</button>
                 </h3>
             </div>
-        
             <div class="row">
-
-                <h3 class="form-section">对比项设定    <button type="button" class="btn btn-success" onclick="BackList('/Rule')">增加</button></h3>
-
-
-
+                <h3 class="form-section" id="mbTitle">
+                    对比项设定
+                    <button type="button" class="btn btn-success" id="btnMbAdd">增加</button>
+                </h3>
             </div>
             <div class="row">
              
@@ -91,7 +89,17 @@
 <script type='text/javascript'>
 
     $(function () {
-
+        $("#btnMpAdd").click(function () {
+            var tr = "<p  style='font-size:16px'>名称:<input class='input-small' type='text'>&nbsp&nbsp基础文件列数:<input class='input-small' type='text'>&nbsp&nbsp对比文件列数:<input class='input-small' type='text'>"
+            tr += "&nbsp&nbsp日期调整月:<select class='input-small'><option>-12</option><option>-11</option><option>-10</option><option>-9</option><option>-8</option><option>-7</option><option>-6</option><option>-5</option><option>-4</option><option>-3</option><option>-2</option><option>-1</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select>";
+            tr += "&nbsp&nbsp<input type='button' value='删除' onclick='$(this).parent().remove();'></input></p>";
+            $("#mpTitle").append(tr);
+        });
+        $("#btnMbAdd").click(function () {
+            var tr = "<p style='font-size:16px'>名称:<input class='input-small' type='text'>&nbsp&nbsp基础文件列数:<input class='input-small' type='text'>&nbsp&nbsp对比文件列数:<input class='input-small' type='text'>"
+            tr += "&nbsp&nbsp<input type='button' value='删除' onclick='$(this).parent().remove();'></input></p>";
+            $("#mbTitle").append(tr);
+        });
         $("form").submit(function (form) {
 
             if (form.result) {
