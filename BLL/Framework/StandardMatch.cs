@@ -10,10 +10,13 @@ namespace Langben.BLL
     /// <summary>
     /// 标准模板
     /// </summary>
-    public partial class MatchStand
+    public partial class StandardMatch
     {
         public Dictionary<int, CalculateResult> list = new Dictionary<int, CalculateResult>();
+      public  NPOI.SS.UserModel.IRow Row { get; set; }
+        public NPOI.SS.UserModel.ISheet sheet { get; set; }
         public string Condition { get; set; }
+      
         public bool IsOnly { get; set; }
         public CalculateResult this[int i]
         {
@@ -24,18 +27,7 @@ namespace Langben.BLL
         /// 这是不对的，应该是匹配项相加
         /// </summary>
         /// <returns></returns>
-        public bool Calculate()
-        { 
-            //
-            foreach (var item in list.Keys)
-            {
-                Condition += list[item].Value.Trim();
-            }
-
-            return true;
-        }
-        //缴纳基数
-
+        public virtual bool Calculate(List<MatchDetail> matchs) { return true; }
 
     }
 

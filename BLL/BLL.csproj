@@ -73,7 +73,9 @@
     <Compile Include="Framework\CalculateResult.cs" />
     <Compile Include="Excel\DataFactory.cs" />
     <Compile Include="Excel\Gold.cs" />
-    <Compile Include="Framework\MyMatch.cs" />
+    <Compile Include="Framework\StandardMatch.cs" />
+    <Compile Include="Framework\StandardSecond.cs" />
+    <Compile Include="Framework\StandardFirst.cs" />
     <Compile Include="Framework\Standard.cs" />
     <Compile Include="Framework\AccountBLL.cs" />
     <Compile Include="Framework\DataOfDiffrent.cs" />
