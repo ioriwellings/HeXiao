@@ -16,7 +16,7 @@ namespace App
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }//Home
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }//Home
             );
         }
     }
