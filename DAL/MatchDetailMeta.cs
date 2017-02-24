@@ -31,7 +31,7 @@ namespace Langben.DAL
 
 			[ScaffoldColumn(true)]
 			[Display(Name = "日期调整月", Order = 3)]
-			[Range(0,2147483646, ErrorMessage="数值超出范围")]
+			[Range(-230,214, ErrorMessage="数值超出范围")]
 			public int? ChangeMonth { get; set; }
 
 			[ScaffoldColumn(true)]
