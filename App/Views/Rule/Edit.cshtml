@@ -3,9 +3,9 @@
 }
 
 @model Langben.DAL.Rule
-
 @using Common
 @using Models
+
 <div class="portlet-title">
     <div class="caption">
         <i class="icon-equalizer font-red-sunglo"></i>
@@ -32,12 +32,97 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="row">
+                <h3 class="form-section" id="mpTitle">
+                    匹配项设定    <button type="button" class="btn btn-success" id="btnMpAdd">增加</button>
+                </h3>
+            </div>
+
+            <div class='row pipeihang'>
+                <div class='col-md-4'>
+                    <div class='form-group'>
+                        <label class='control-label col-md-6' for='BaseExcel'>基础文件列数</label>
+                        <div class='col-md-6'>
+                            @Html.TextBoxFor(model => model.MatchDetail.Where(p => p.BaseMatch == "匹配项设定").ElementAt(0).BaseExcel, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class='col-md-4'>
+                    <div class='form-group'>
+                        <label class='control-label col-md-6' for='MatchExcel'>对比文件列数</label>
+                        <div class='col-md-6'>
+                            @Html.TextBoxFor(model => model.MatchDetail.Where(p => p.BaseMatch == "匹配项设定").ElementAt(0).MatchExcel, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class='col-md-3'>
+                    <div class='form-group'>
+                        <label class='control-label col-md-7' for='ChangeMonth'>日期调整月</label>
+                        <div class='col-md-5'>
+                            <select class='form-control' id="ChangeMonth" name="ChangeMonth">
+                                <option>-12</option>
+                                <option>-11</option>
+                                <option>-10</option>
+                                <option>-9</option>
+                                <option>-8</option>
+                                <option>-7</option>
+                                <option>-6</option>
+                                <option>-5</option>
+                                <option>-4</option>
+                                <option>-3</option>
+                                <option>-2</option>
+                                <option>-1</option>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="duibixiang" class="row">
+                <h3 class="form-section" id="mbTitle">
+                    对比项设定
+                    <button type="button" class="btn btn-success" id="btnMbAdd">增加</button>
+                </h3>
+            </div>
+            <div class='row duibihang'>
+                <div class='col-md-4'>
+                    <div class='form-group'>
+                        <label class='control-label col-md-6' for='BaseExcel'>基础文件列数</label>
+                        <div class='col-md-6'>
+                            @Html.TextBoxFor(model => model.MatchDetail.Where(p => p.BaseMatch == "对比项设定").ElementAt(0).BaseExcel, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class='col-md-4'>
+                    <div class='form-group'>
+                        <label class='control-label col-md-6' for='MatchExcel'>对比文件列数</label>
+                        <div class='col-md-6'>
+                            @Html.TextBoxFor(model => model.MatchDetail.Where(p => p.BaseMatch == "对比项设定").ElementAt(0).MatchExcel, new { @class = "control-label col-md-6" })
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
 
-            <div class="row">
+
+            <div id="beizhu" class="row">
 
                 <div class="col-md-12">
                     <div class="form-group">
@@ -53,6 +138,8 @@
                 </div>
 
             </div>
+
+
             @Html.HiddenFor(model => model.CreateTime)
             @Html.HiddenFor(model => model.CreatePerson)
             @Html.HiddenFor(model => model.Id)
@@ -81,16 +168,89 @@
 
 <script type="text/javascript">
 
+    function validation(val) {
+
+        var regu = /^[1-9]\d*$/;
+        //var regu = /^([1-9][0-9]*){1,3}$/; 亲测可用
+        //var regu = /^\+?[1-9][0-9]*$/; 亲测可用
+        if (val != "") {
+            if (!regu.test(val)) {
+                alert("请输入数字");
+                return true;
+            }
+        } else {
+            alert("非空数字");
+            return true;
+        }
+    }
     $(function () {
+        $("#btnMpAdd").click(function () {
 
+            var tr = "<div class='row pipeihang'><div class='col-md-4'><div class='form-group'><label class='control-label col-md-6' for='BaseExcel'>基础文件列数</label><div class='col-md-6'><input class='form-control' id='BaseExcel' name='BaseExcel' placeholder='非空数字' value='' type='text'></div></div></div><div class='col-md-4'><div class='form-group'><label class='control-label col-md-6' for='MatchExcel'>对比文件列数</label><div class='col-md-6'><input class='form-control' id='MatchExcel' name='MatchExcel' placeholder='非空数字' value='' type='text'></div></div></div><div class='col-md-3'><div class='form-group'><label class='control-label col-md-7' for='ChangeMonth'>日期调整月</label><div class='col-md-5'><select class='form-control' id='ChangeMonth' name='ChangeMonth'><option>-12</option><option>-11</option><option>-10</option><option>-9</option><option>-8</option><option>-7</option><option>-6</option><option>-5</option><option>-4</option><option>-3</option><option>-2</option><option>-1</option><option selected='selected'>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div></div></div>";
+
+            tr += "<div class='col-md-1'><div class='form-group'><button type='button' class='btn default' onclick='Delete(this)'>删除</button></div></div>";
+            tr += "</div>";
+            $("#duibixiang").before(tr);
+        });
+        $("#btnMbAdd").click(function () {
+            var tr = "<div class='row duibihang'><div class='col-md-4'><div class='form-group'><label class='control-label col-md-6' for='BaseExcel'>基础文件列数</label><div class='col-md-6'><input class='form-control' id='BaseExcel' name='BaseExcel' placeholder='非空数字' value='' type='text'></div></div></div><div class='col-md-4'><div class='form-group'><label class='control-label col-md-6' for='MatchExcel'>对比文件列数</label><div class='col-md-6'><input class='form-control' id='MatchExcel' name='MatchExcel' placeholder='非空数字' value='' type='text'></div></div></div>";
+
+            tr += "<div class='col-md-1'><div class='form-group'><button type='button' class='btn default' onclick='Delete(this)'>删除</button></div></div>";
+            tr += "</div>";
+            $("#beizhu").before(tr);
+        });
         $("form").submit(function (form) {
-            debugger
-            if (form.result) {
 
+            if (form.result) {
+                var MatchDetail = new Array();
+                var error = false;
+                $(".pipeihang").each(function () {
+
+                    var BaseExcel = $(this).find("#BaseExcel").val();
+                    if (validation(BaseExcel)) {
+                        error = true;
+                        return false;
+
+                    }
+                    var MatchExcel = $(this).find("#MatchExcel").val();
+                    if (validation(MatchExcel)) {
+                        error = true;
+                        return false;
+
+                    }
+                    var ChangeMonth = $(this).find("#ChangeMonth").find("option:selected").text();
+                    MatchDetail.push({ BaseExcel: BaseExcel, MatchExcel: MatchExcel, ChangeMonth: ChangeMonth, BaseMatch: "匹配项设定" });
+
+                });
+                $(".duibihang").each(function () {
+
+                    var BaseExcel = $(this).find("#BaseExcel").val();
+                    if (validation(BaseExcel)) {
+                        error = true;
+                        return false;
+
+                    }
+                    var MatchExcel = $(this).find("#MatchExcel").val();
+                    if (validation(MatchExcel)) {
+                        error = true;
+                        return false;
+
+                    }
+                    MatchDetail.push({ BaseExcel: BaseExcel, MatchExcel: MatchExcel, BaseMatch: "匹配项设定" });
+
+                });
+                if (error) {
+                    return false;
+                }
+                var Rule = new Object();
+                Rule.MatchDetail = MatchDetail;
+                Rule.Name = $("#Name").val();
+                Rule.Remark = $("#Remark").val();
+                debugger
                 $.ajax({
                     url: this.action,
                     type: "Put",
-                    data: $(this).serialize(),
+                    data: Rule,
                     dataType: "json",
                     success: function (data) {
                         debugger
@@ -126,7 +286,9 @@
         });
 
     });
-
+    function Delete(thi) {
+        $(thi).parent().parent().parent().remove();
+    }
 </script>
 
 
