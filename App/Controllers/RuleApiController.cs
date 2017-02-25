@@ -102,7 +102,14 @@ namespace Langben.App.Controllers
                 string currentPerson = GetCurrentPerson();
                 entity.UpdateTime = DateTime.Now;
                 entity.UpdatePerson = currentPerson;
-                 
+
+                foreach (var item in entity.MatchDetail)
+                {
+                    item.Id = Common.Result.GetNewId();
+
+                    item.Vertion = entity.Vertion;
+                }
+
                 string returnValue = string.Empty;
                 if (m_BLL.Edit(ref validationErrors, entity))
                 {
