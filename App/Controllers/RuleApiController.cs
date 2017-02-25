@@ -100,10 +100,20 @@ namespace Langben.App.Controllers
             Common.ClientResult.Result result = new Common.ClientResult.Result();
             if (entity != null && ModelState.IsValid)
             {   //数据校验
-
                 string currentPerson = GetCurrentPerson();
                 entity.UpdateTime = DateTime.Now;
                 entity.UpdatePerson = currentPerson;
+
+                foreach (var item in entity.MatchDetail)
+                {
+                    if (string.IsNullOrEmpty(item.Id))
+                    {
+                        item.Id = Common.Result.GetNewId();
+                        item.CreateTime = DateTime.Now;
+                        item.CreatePerson = currentPerson;
+                        item.Vertion = entity.Vertion;
+                    }
+                }
 
                 string returnValue = string.Empty;
                 if (m_BLL.Edit(ref validationErrors, entity))
