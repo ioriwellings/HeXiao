@@ -49,10 +49,11 @@ namespace Langben.App.Controllers
                 entity.CreatePerson = currentPerson;
 
                 entity.Id = Common.Result.GetNewId();
+                int i = 0;
                 foreach (var item in entity.MatchDetail)
                 {
                     item.Id = Common.Result.GetNewId();
-                   
+                    item.State = (i++).ToString();
                     item.Vertion = entity.Vertion;
                 }
 
@@ -102,11 +103,11 @@ namespace Langben.App.Controllers
                 string currentPerson = GetCurrentPerson();
                 entity.UpdateTime = DateTime.Now;
                 entity.UpdatePerson = currentPerson;
-
+                int i = 0;
                 foreach (var item in entity.MatchDetail)
                 {
                     item.Id = Common.Result.GetNewId();
-
+                    item.State = (i++).ToString();
                     item.Vertion = entity.Vertion;
                 }
 

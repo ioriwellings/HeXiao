@@ -16,6 +16,10 @@
 <div class="portlet-body form">
     <!-- BEGIN FORM-->
     <form action="/api/RuleApi/Put" class="form-horizontal">
+        @Html.HiddenFor(model => model.CreateTime)
+        @Html.HiddenFor(model => model.CreatePerson)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Vertion)
         <div class="form-body">
 
             <div class="row">
@@ -40,7 +44,7 @@
                 </h3>
             </div>
             @{var pmCounter = 0;}
-            @foreach (var item in Model.MatchDetail.Where(p => p.BaseMatch == "匹配项设定"))
+            @foreach (var item in Model.MatchDetail.Where(p => p.BaseMatch == "匹配项设定").OrderBy(o => o.State))
             {
                 <div class='row pipeihang'>
                     <div class='col-md-4'>
@@ -101,7 +105,7 @@
                 </h3>
             </div>
             @{var bmCounter = 0;}
-            @foreach (var item in Model.MatchDetail.Where(p => p.BaseMatch == "对比项设定"))
+            @foreach (var item in Model.MatchDetail.Where(p => p.BaseMatch == "对比项设定").OrderBy(o => o.State))
             {
                 <div class='row duibihang'>
                     <div class='col-md-4'>
@@ -155,10 +159,7 @@
 
                 </div>
 
-                @Html.HiddenFor(model => model.CreateTime)
-                @Html.HiddenFor(model => model.CreatePerson)
-                @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.Vertion)
+
             </div>
             <div class="form-actions">
                 <div class="row">
@@ -174,6 +175,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </form>
     <!-- END FORM-->
 </div>
@@ -259,7 +261,7 @@
                         return false;
 
                     }
-                    MatchDetail.push({ Id: Id, RuleId: RuleId, Vertion: Vertion, BaseExcel: BaseExcel, MatchExcel: MatchExcel, BaseMatch: "匹配项设定" });
+                    MatchDetail.push({ Id: Id, RuleId: RuleId, Vertion: Vertion, BaseExcel: BaseExcel, MatchExcel: MatchExcel, BaseMatch: "对比项设定" });
 
                 });
                 if (error) {

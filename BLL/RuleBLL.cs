@@ -250,9 +250,26 @@ namespace Langben.BLL
         public bool Edit(ref ValidationErrors validationErrors, Rule entity)
         {
             try
-            { 
-                repository.Edit(db, entity);
-                repository.Save(db);
+            {
+                using (SysEntities db = new SysEntities())
+                {
+                     var rule= db.Rule.SingleOrDefault(s => s.Id == entity.Id);
+                    var details = rule.MatchDetail.ToList();
+                    if (rule!=null)
+                    {
+                        foreach (var item in details)
+                        {
+                            db.MatchDetail.Remove(item);
+                        }
+                        db.Rule.Remove(rule);
+
+                    }
+                 
+                    db.Rule.Add(entity);
+                    db.SaveChanges();
+
+                }
+               
                 return true;
             }
             catch (Exception ex)
