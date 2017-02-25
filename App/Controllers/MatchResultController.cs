@@ -48,10 +48,37 @@ namespace Langben.App.Controllers
 
                 return View();
             }
+            string currentPerson = GetCurrentPerson();
+            entity.CreateTime = System.DateTime.Now;
+            entity.CreatePerson = currentPerson;
+            entity.Id = Result.GetNewId();
+
+            //excel操作
             entity.Vertion = GetVersion();
             entity.Result= GoldMatch.Make(entity);
+            string returnValue = string.Empty;
+            if (m_BLL.Create(ref validationErrors, entity))
+            {
 
-            return Redirect("/home/index");
+                return Redirect("/home/index");//提示创建成功
+            }
+            else
+            {
+                if (validationErrors != null && validationErrors.Count > 0)
+                {
+                    validationErrors.All(a =>
+                    {
+                        returnValue += a.ErrorMessage;
+                        return true;
+                    });
+                }
+                LogClassModels.WriteServiceLog(Suggestion.InsertFail + "，对比结果的信息，" + returnValue, "对比结果"
+                    );//写入日志                      
+              
+                return View(); //提示插入失败
+            }
+
+           
         }
         /// <summary>
         /// 列表

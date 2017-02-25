@@ -18,8 +18,8 @@ namespace Langben.BLL
 
         public static string Make(DAL.MatchResult entity)
         {
-            string err = string.Empty; string xlsPathFileName = string.Empty;
-            
+            string err = string.Empty;
+
             try
             {
                 string pathmy = @"D:\SheBaoHeXiao\App";
@@ -49,8 +49,8 @@ namespace Langben.BLL
                         int lie = (int)item.BaseExcel;
 
                         standardBase.list.Add(lie, new CalculateResult());
-                        standardBase.Row = sheet.GetRow(i);
-                        standardBase.sheet = sheet;
+                        standardBase.Row = i;
+                    
                         cell = sheet.GetRow(i).GetCell(lie - 1);
                         if (cell != null)
                         {
@@ -102,12 +102,12 @@ namespace Langben.BLL
                 xlsPath = pathmy + entity.GoldTempFullPath;
                 file = new FileStream(xlsPath, FileMode.Open, FileAccess.Read);
                 workbook = WorkbookFactory.Create(file);
-                sheet = workbook.GetSheetAt(0);
+            var    sheet2 = workbook.GetSheetAt(0);
                 List<StandardMatch> listMatch = new List<StandardMatch>();
                 StandardSecond standardMatch = null;
 
                 //循环excel的行数
-                for (int i = 2; i <= sheet.LastRowNum; i++)
+                for (int i = 2; i <= sheet2.LastRowNum; i++)
                 {
                     standardMatch = new StandardSecond();
 
@@ -115,11 +115,11 @@ namespace Langben.BLL
                     foreach (var item in detail)
                     {
                         int lie = (int)item.MatchExcel;
-                        standardMatch.Row = sheet.GetRow(i);
-                        standardMatch.sheet = sheet;
+                        standardMatch.Row = i;
+                      
                         standardMatch.list.Add(lie, new CalculateResult());
 
-                        cell = sheet.GetRow(i).GetCell(lie - 1);
+                        cell = sheet2.GetRow(i).GetCell(lie - 1);
                         if (cell != null)
                         {
                             switch (cell.CellType)
@@ -198,7 +198,7 @@ namespace Langben.BLL
                     var data = from m in listMatch where m.Condition == item select m;
                     foreach (var it in data)
                     {
-                     
+
                         manyMatch.Add(it);
                     }
                 }
@@ -224,22 +224,27 @@ namespace Langben.BLL
 
                     }
                 }
-                var pur = listMatch.Except(manyMatch).Except(onlyMatch);
 
-                List<StandardMatch> newSame = new List<StandardMatch>();//完全一致数据
-                List<StandardMatch> newDiffrent = new List<StandardMatch>();//存在差异项目数据
+                var purBase = listBase.Except(manyBase).Except(onlyBase);
+                var purMatch = listMatch.Except(manyMatch).Except(onlyMatch);
+
+                List<StandardMatchBaseTogether> newSame = new List<StandardMatchBaseTogether>();//完全一致数据
+                List<StandardMatchBaseTogether> newDiffrent = new List<StandardMatchBaseTogether>();//存在差异项目数据
                 var goldExcel = detail.Where(w => w.BaseMatch == "对比项设定");
-                foreach (var item in pur)
+                foreach (var item in purBase)
                 {
-                    var match = (from m in listMatch select m).First();
-
+                    var match = (from m in purMatch where m.Condition == item.Condition select m).First();
+                    StandardMatchBaseTogether bm = new BLL.StandardMatchBaseTogether();
+                    bm.Base = item;
+                    bm.Match = match;
                     if (IsSame(goldExcel, item, match))
                     {
-                        newSame.Add(item);
+
+                        newSame.Add(bm);
                     }
                     else
                     {
-                        newDiffrent.Add(item);
+                        newDiffrent.Add(bm);
 
                     }
 
@@ -252,31 +257,41 @@ namespace Langben.BLL
                 IWorkbook workbookStandard = WorkbookFactory.Create(fileStandard);
 
                 ISheet sheetfileStandard = workbookStandard.GetSheetAt(0);
+                for (int i = 0; i < 2; i++)//复制表头
+                {
+                    CopyRow(workbookStandard, sheetfileStandard,  sheet, i, i );
+                }
                 for (int i = 0; i < onlyBase.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard, onlyBase[i].sheet, onlyBase[i].Row, i);
+                    CopyRow(workbookStandard, sheetfileStandard, sheet, onlyBase[i].Row, i + 2);
                 }
 
                 ICellStyle style = null;//红色单元格
 
 
                 ISheet sheetfileStandard1 = workbookStandard.GetSheetAt(1);
+                for (int i = 0; i < 2; i++)//复制表头
+                {
+                    CopyRow(workbookStandard, sheetfileStandard1, sheet2, i, i);
+                }
                 for (int i = 0; i < onlyMatch.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard1, onlyMatch[i].sheet, onlyMatch[i].Row, i);
+                    CopyRow(workbookStandard, sheetfileStandard1, sheet2, onlyMatch[i].Row, i + 2);
                 }
 
                 ISheet sheetfileStandard2 = workbookStandard.GetSheetAt(2);
                 for (int i = 0; i < newDiffrent.Count; i++)
                 {
                     var dataRow = sheetfileStandard2.CreateRow(i + 2);
-               
+
                     if (null != (newDiffrent[i]))
                     {
-                        foreach (var item in newDiffrent[i].list)
+                        int j = 0;
+                        foreach (var item in newDiffrent[i].Base.list.OrderBy(o=>o.Key))
                         {
-                            var cellStandard = dataRow.CreateCell(item.Key - 1);
-                           
+                            j++;
+                            var cellStandard = dataRow.CreateCell(j);
+
                             //红色单元格
                             style = workbookStandard.CreateCellStyle();
                             if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
@@ -285,61 +300,93 @@ namespace Langben.BLL
                                 style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
                                 style.FillPattern = FillPattern.SolidForeground;
                                 cellStandard.CellStyle = style;
-                                
+
                             }
                             if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
                             {
                                 cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
-                            } 
+                            }
                             cellStandard.SetCellValue(item.Value.Value);
+                            
+                        }
+                        foreach (var item in newDiffrent[i].Match.list.OrderBy(o => o.Key))
+                        {
+                            j++;
+                            var cellStandard = dataRow.CreateCell(j);
 
-                           
+                            //红色单元格
+                            style = workbookStandard.CreateCellStyle();
+                            if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
+                            {
+
+                                style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
+                                style.FillPattern = FillPattern.SolidForeground;
+                                cellStandard.CellStyle = style;
+
+                            }
+                            if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
+                            {
+                                cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
+                            }
+                            cellStandard.SetCellValue(item.Value.Value);
 
                         }
                     }
                 }
 
-                ISheet sheetfileStandard3 = workbookStandard.GetSheetAt(3);
+                 ISheet sheetfileStandard3 = workbookStandard.GetSheetAt(3);
                 for (int i = 0; i < newSame.Count; i++)
                 {
                     var dataRow = sheetfileStandard3.CreateRow(i + 2);
 
                     if (null != (newSame[i]))
                     {
-                        foreach (var item in newSame[i].list)
+                        int j = 0;
+                        foreach (var item in newSame[i].Base.list.OrderBy(o => o.Key))
                         {
-                            var cellStandard = dataRow.CreateCell(item.Key - 1);
-
-                            //红色单元格
-                            style = workbookStandard.CreateCellStyle();
-                            if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
-                            {
-
-                                style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
-                                style.FillPattern = FillPattern.SolidForeground;
-                                cellStandard.CellStyle = style;
-
-                            }
+                            j++;
+                            var cellStandard = dataRow.CreateCell(j);
+                             
                             if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
                             {
                                 cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
                             }
                             cellStandard.SetCellValue(item.Value.Value);
+
+                        }
+                        foreach (var item in newSame[i].Match.list.OrderBy(o => o.Key))
+                        {
+                            j++;
+                            var cellStandard = dataRow.CreateCell(j);
                              
+                            if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
+                            {
+                                cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
+                            }
+                            cellStandard.SetCellValue(item.Value.Value);
+
                         }
                     }
                 }
 
                 ISheet sheetfileStandard4 = workbookStandard.GetSheetAt(4);
+                for (int i = 0; i < 2; i++)//复制表头
+                {
+                    CopyRow(workbookStandard, sheetfileStandard4, sheet, i, i);
+                }
                 for (int i = 0; i < manyBase.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard4, manyBase[i].sheet, manyBase[i].Row, i);
+                    CopyRow(workbookStandard, sheetfileStandard4,  sheet, manyBase[i].Row, i + 2);
                 }
 
                 ISheet sheetfileStandard5 = workbookStandard.GetSheetAt(5);
+                for (int i = 0; i < 2; i++)//复制表头
+                {
+                    CopyRow(workbookStandard, sheetfileStandard5, sheet2, i, i);
+                }
                 for (int i = 0; i < manyMatch.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard5, manyMatch[i].sheet, manyMatch[i].Row, i);
+                    CopyRow(workbookStandard, sheetfileStandard5, sheet2, manyMatch[i].Row, i + 2);
                 }
 
 
@@ -347,18 +394,19 @@ namespace Langben.BLL
 
                 var saveFileName = entity.GoldTempFullPath.Path(guid);
                 entity.Result = saveFileName;
-                 xlsPathFileName = pathmy + @"\up\Result\" + saveFileName;
+                var xlsPathFileName = pathmy + @"\up\Result\" + saveFileName;
                 using (FileStream fileWrite = new FileStream(xlsPathFileName, FileMode.Create))
                 {
                     workbookStandard.Write(fileWrite);
                 }
+                return saveFileName;
             }
             catch (Exception ex)
             {
 
                 throw;
             }
-            return xlsPathFileName;
+
         }
         public static bool IsSame(IEnumerable<MatchDetail> detail, StandardMatch baseExcle, StandardMatch matchExcel)
         {
@@ -370,6 +418,11 @@ namespace Langben.BLL
                     baseExcle[(int)item.BaseExcel].Red = true;
                     matchExcel[(int)item.MatchExcel].Red = true;
                     result = false;
+                }
+                else
+                {
+                    baseExcle[(int)item.BaseExcel].Red = false;
+                    matchExcel[(int)item.MatchExcel].Red = false;
                 }
 
             }
@@ -426,7 +479,6 @@ namespace Langben.BLL
                     select c).FirstOrDefault();
 
         }
-
         /// <summary>
         /// HSSFRow Copy Command
         /// 
@@ -438,20 +490,14 @@ namespace Langben.BLL
         /// <param name="destinationsheet">WorkSheet containing rows to be copied</param>
         /// <param name="sourceRowNum">Source Row Number</param>
         /// <param name="destinationRowNum">Destination Row Number</param>
-        private static void CopyRow(IWorkbook workbook, ISheet destinationsheet, ISheet sourcesheet, IRow sourceRow, int destinationRowNum)
+        private static void CopyRow(IWorkbook workbook, ISheet destinationsheet, ISheet sourcesheet, int row, int destinationRowNum)
         {
             // Get the source / new row
-            var newRow = destinationsheet.GetRow(destinationRowNum);
-            // var sourceRow = worksheet.GetRow(sourceRowNum);
-
-            // If the row exist in destination, push down all rows by 1 else create a new row
-            if (newRow != null)
+            var newRow = destinationsheet.CreateRow(destinationRowNum);
+            var sourceRow = sourcesheet.GetRow(row);
+            if (sourceRow==null)
             {
-                destinationsheet.ShiftRows(destinationRowNum, destinationsheet.LastRowNum, 1);
-            }
-            else
-            {
-                newRow = destinationsheet.CreateRow(destinationRowNum);
+                return;
             }
             int startMergeCell = -1; //记录每行的合并单元格起始位置
             // Loop through source columns to add to new row
@@ -470,7 +516,7 @@ namespace Langben.BLL
 
                 // Copy style from old cell and apply to new cell
                 var newCellStyle = workbook.CreateCellStyle();
-                newCellStyle.CloneStyleFrom(sourceCell.CellStyle); ;
+                newCellStyle.CloneStyleFrom(sourceCell.CellStyle);
                 newCell.CellStyle = newCellStyle;
 
                 // If there is a cell comment, copy
@@ -528,23 +574,10 @@ namespace Langben.BLL
             }
             //列合并，以下为复制模板行的单元格合并格式                    
 
-            // If there are are any merged regions in the source row, copy to new row
-            for (int i = 0; i < destinationsheet.NumMergedRegions; i++)
-            {
-                CellRangeAddress cellRangeAddress = destinationsheet.GetMergedRegion(i);
-                if (cellRangeAddress.FirstRow == sourceRow.RowNum)
-                {
-                    CellRangeAddress newCellRangeAddress = new CellRangeAddress(newRow.RowNum,
-                                                                                (newRow.RowNum +
-                                                                                 (cellRangeAddress.FirstRow -
-                                                                                  cellRangeAddress.LastRow)),
-                                                                                cellRangeAddress.FirstColumn,
-                                                                                cellRangeAddress.LastColumn);
-                    destinationsheet.AddMergedRegion(newCellRangeAddress);
-                }
-            }
+
 
         }
 
+     
     }
 }

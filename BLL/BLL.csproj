@@ -73,6 +73,7 @@
     <Compile Include="Framework\CalculateResult.cs" />
     <Compile Include="Excel\DataFactory.cs" />
     <Compile Include="Excel\Gold.cs" />
+    <Compile Include="Framework\StandardMatchBaseTogether.cs" />
     <Compile Include="Framework\StandardMatch.cs" />
     <Compile Include="Framework\StandardSecond.cs" />
     <Compile Include="Framework\StandardFirst.cs" />

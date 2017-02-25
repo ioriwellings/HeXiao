@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace Langben.BLL
 {
     /// <summary>
-    /// 标准模板
+    /// 标准模板，基础文件
     /// </summary>
     public partial class StandardFirst: StandardMatch
     {
       
         /// <summary>
-        /// 这是不对的，应该是匹配项相加
+        /// 匹配项相加
         /// </summary>
         /// <returns></returns>
         public override bool Calculate(List<MatchDetail> matchs)
@@ -22,14 +22,11 @@ namespace Langben.BLL
             //
             foreach (var item in matchs)
             {
-                if (item.ChangeMonth != null && item.ChangeMonth != 0)
-                {
-                    Condition += Convert.ToDateTime(list[(int)item.BaseExcel].Value.Trim()).AddMonths((int)item.ChangeMonth).ToShortDateString();
-                }
-                else
+                if (list[(int)item.BaseExcel].Value != null)
                 {
                     Condition += list[(int)item.BaseExcel].Value.Trim();
                 }
+
 
             }
 

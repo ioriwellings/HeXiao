@@ -13,8 +13,8 @@ namespace Langben.BLL
     public partial class StandardMatch
     {
         public Dictionary<int, CalculateResult> list = new Dictionary<int, CalculateResult>();
-      public  NPOI.SS.UserModel.IRow Row { get; set; }
-        public NPOI.SS.UserModel.ISheet sheet { get; set; }
+      public  int Row { get; set; }
+    
         public string Condition { get; set; }
       
         public bool IsOnly { get; set; }

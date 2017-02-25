@@ -20,7 +20,7 @@
         <tr>
 
             <th data-orderable='false'>@Html.DisplayNameFor(model => model.Result)</th>
-
+            <th data-orderable='false'>@Html.DisplayNameFor(model => model.RuleName )</th>
             <th data-orderable='false'>@Html.DisplayNameFor(model => model.BasePath)</th>
 
             <th data-orderable='false'>@Html.DisplayNameFor(model => model.GoldTempPath)</th>
@@ -48,10 +48,11 @@
                     return JSON.stringify(data);
                 }
             },
-            order: [[3, "desc"]],
+            order: [[4, "desc"]],
             columns: [
 
             { data: 'Result' },
+             { data: 'RuleName' },
 
             { data: 'BasePath' },
 

@@ -28,7 +28,7 @@ namespace Langben.DAL
 
 			[ScaffoldColumn(true)]
 			[Display(Name = "基础模板全路径", Order = 3)]
-			[StringLength(36, ErrorMessage = "长度不可超过36")]
+			[StringLength(369, ErrorMessage = "长度不可超过36")]
 			public object BaseFullPath { get; set; }
 
 			[ScaffoldColumn(true)]
@@ -38,7 +38,7 @@ namespace Langben.DAL
 
 			[ScaffoldColumn(true)]
 			[Display(Name = "目标模板全路径", Order = 5)]
-			[StringLength(36, ErrorMessage = "长度不可超过36")]
+			[StringLength(369, ErrorMessage = "长度不可超过36")]
 			public object GoldTempFullPath { get; set; }
 
 			[ScaffoldColumn(true)]
@@ -47,7 +47,7 @@ namespace Langben.DAL
 			public object RuleId { get; set; }
 
 			[ScaffoldColumn(true)]
-			[Display(Name = "规则名称", Order = 7)]
+			[Display(Name = "核销规则", Order = 7)]
 			[StringLength(200, ErrorMessage = "长度不可超过200")]
 			public object RuleName { get; set; }
 
