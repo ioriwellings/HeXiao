@@ -48,6 +48,8 @@
                             <label class='control-label col-md-6' for='BaseExcel'>基础文件列数</label>
                             <div class='col-md-6'>
                                 <input class='form-control' id='BaseExcel' name='BaseExcel' placeholder='非空数字' value=@item.BaseExcel type='text'>
+
+
                             </div>
                         </div>
                     </div>
@@ -86,10 +88,11 @@
                         <div class='col-md-1'><div class='form-group'><button type='button' class='btn default' onclick='Delete(this)'>删除</button></div></div>
                     }
                     <input id="Id" name="Id" type="hidden" value=@item.Id />
+                    <input id="Vertion" name="Vertion" type="hidden" value=@item.Vertion />
                     <input id="RuleId" name="RuleId" type="hidden" value=@item.RuleId />
                     @{ pmCounter++;}
                 </div>
-            }
+                        }
 
             <div id="duibixiang" class="row">
                 <h3 class="form-section" id="mbTitle">
@@ -106,6 +109,8 @@
                             <label class='control-label col-md-6' for='BaseExcel'>基础文件列数</label>
                             <div class='col-md-6'>
                                 <input class='form-control' id='BaseExcel' name='BaseExcel' placeholder='非空数字' value=@item.BaseExcel type='text'>
+
+
                             </div>
                         </div>
                     </div>
@@ -122,52 +127,53 @@
                         <div class='col-md-1'><div class='form-group'><button type='button' class='btn default' onclick='Delete(this)'>删除</button></div></div>
                     }
                     <input id="Id" name="Id" type="hidden" value=@item.Id />
+                    <input id="Vertion" name="Vertion" type="hidden" value=@item.Vertion />
                     <input id="RuleId" name="RuleId" type="hidden" value=@item.RuleId />
-                    @{ bmCounter ++;}
+                    @{ bmCounter++;}
                 </div>
-            }
+                        }
 
 
 
 
             <div id="beizhu" class="row">
 
-            <div id="beizhu" class="row">
+                <div id="beizhu" class="row">
 
-                <div class="col-md-12">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Remark) })
-                            @Html.ValidationMessageFor(model => model.Remark)
-                            <span class="help-block">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Remark) })
+                                @Html.ValidationMessageFor(model => model.Remark)
+                                <span class="help-block">
 
-                            </span>
+                                </span>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
+                @Html.HiddenFor(model => model.CreateTime)
+                @Html.HiddenFor(model => model.CreatePerson)
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Vertion)
             </div>
-
-            @Html.HiddenFor(model => model.CreateTime)
-            @Html.HiddenFor(model => model.CreatePerson)
-            @Html.HiddenFor(model => model.Id)
-            @Html.HiddenFor(model => model.Vertion)
-        </div>
-        <div class="form-actions">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-offset-3 col-md-9">
-                            <button type="submit" class="btn btn-primary">修改</button>
-                            <button type="button" class="btn default" onclick="BackList('/Rule')">返回</button>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">修改</button>
+                                <button type="button" class="btn default" onclick="BackList('/Rule')">返回</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
+                    <div class="col-md-6">
+                    </div>
                 </div>
             </div>
-        </div>
     </form>
     <!-- END FORM-->
 </div>
@@ -217,6 +223,7 @@
 
                     var Id = $(this).find("#Id").val();
                     var RuleId = $(this).find("#RuleId").val();
+                    var Vertion = $(this).find("#Vertion").val();
 
                     var BaseExcel = $(this).find("#BaseExcel").val();
                     if (validation(BaseExcel)) {
@@ -231,13 +238,14 @@
 
                     }
                     var ChangeMonth = $(this).find("#ChangeMonth").find("option:selected").text();
-                    MatchDetail.push({ Id: Id, RuleId: RuleId, BaseExcel: BaseExcel, MatchExcel: MatchExcel, ChangeMonth: ChangeMonth, BaseMatch: "匹配项设定" });
+                    MatchDetail.push({ Id: Id, RuleId: RuleId, Vertion: Vertion, BaseExcel: BaseExcel, MatchExcel: MatchExcel, ChangeMonth: ChangeMonth, BaseMatch: "匹配项设定" });
 
                 });
                 $(".duibihang").each(function () {
 
                     var Id = $(this).find("#Id").val();
                     var RuleId = $(this).find("#RuleId").val();
+                    var Vertion = $(this).find("#Vertion").val();
 
                     var BaseExcel = $(this).find("#BaseExcel").val();
                     if (validation(BaseExcel)) {
@@ -251,7 +259,7 @@
                         return false;
 
                     }
-                    MatchDetail.push({ Id: Id, RuleId: RuleId, BaseExcel: BaseExcel, MatchExcel: MatchExcel, BaseMatch: "匹配项设定" });
+                    MatchDetail.push({ Id: Id, RuleId: RuleId, Vertion: Vertion, BaseExcel: BaseExcel, MatchExcel: MatchExcel, BaseMatch: "匹配项设定" });
 
                 });
                 if (error) {
@@ -309,6 +317,5 @@
         $(thi).parent().parent().parent().remove();
     }
 </script>
-
 
 

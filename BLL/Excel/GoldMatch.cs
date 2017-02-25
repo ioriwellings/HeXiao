@@ -18,7 +18,8 @@ namespace Langben.BLL
 
         public static string Make(DAL.MatchResult entity)
         {
-            string err = string.Empty;
+            string err = string.Empty; string xlsPathFileName = string.Empty;
+            
             try
             {
                 string pathmy = @"D:\SheBaoHeXiao\App";
@@ -197,6 +198,7 @@ namespace Langben.BLL
                     var data = from m in listMatch where m.Condition == item select m;
                     foreach (var it in data)
                     {
+                     
                         manyMatch.Add(it);
                     }
                 }
@@ -225,7 +227,7 @@ namespace Langben.BLL
                 var pur = listMatch.Except(manyMatch).Except(onlyMatch);
 
                 List<StandardMatch> newSame = new List<StandardMatch>();//完全一致数据
-                List<StandardMatch> newDiffrent = new List<StandardMatch>();//完全一致数据
+                List<StandardMatch> newDiffrent = new List<StandardMatch>();//存在差异项目数据
                 var goldExcel = detail.Where(w => w.BaseMatch == "对比项设定");
                 foreach (var item in pur)
                 {
@@ -248,23 +250,96 @@ namespace Langben.BLL
 
                 FileStream fileStandard = new FileStream(xlsxPath, FileMode.Open, FileAccess.Read);
                 IWorkbook workbookStandard = WorkbookFactory.Create(fileStandard);
+
                 ISheet sheetfileStandard = workbookStandard.GetSheetAt(0);
                 for (int i = 0; i < onlyBase.Count; i++)
                 {
                     CopyRow(workbookStandard, sheetfileStandard, onlyBase[i].sheet, onlyBase[i].Row, i);
-
                 }
 
                 ICellStyle style = null;//红色单元格
 
 
                 ISheet sheetfileStandard1 = workbookStandard.GetSheetAt(1);
-
                 for (int i = 0; i < onlyMatch.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard, onlyBase[i].sheet, onlyMatch[i].Row, i);
+                    CopyRow(workbookStandard, sheetfileStandard1, onlyMatch[i].sheet, onlyMatch[i].Row, i);
+                }
 
+                ISheet sheetfileStandard2 = workbookStandard.GetSheetAt(2);
+                for (int i = 0; i < newDiffrent.Count; i++)
+                {
+                    var dataRow = sheetfileStandard2.CreateRow(i + 2);
+               
+                    if (null != (newDiffrent[i]))
+                    {
+                        foreach (var item in newDiffrent[i].list)
+                        {
+                            var cellStandard = dataRow.CreateCell(item.Key - 1);
+                           
+                            //红色单元格
+                            style = workbookStandard.CreateCellStyle();
+                            if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
+                            {
 
+                                style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
+                                style.FillPattern = FillPattern.SolidForeground;
+                                cellStandard.CellStyle = style;
+                                
+                            }
+                            if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
+                            {
+                                cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
+                            } 
+                            cellStandard.SetCellValue(item.Value.Value);
+
+                           
+
+                        }
+                    }
+                }
+
+                ISheet sheetfileStandard3 = workbookStandard.GetSheetAt(3);
+                for (int i = 0; i < newSame.Count; i++)
+                {
+                    var dataRow = sheetfileStandard3.CreateRow(i + 2);
+
+                    if (null != (newSame[i]))
+                    {
+                        foreach (var item in newSame[i].list)
+                        {
+                            var cellStandard = dataRow.CreateCell(item.Key - 1);
+
+                            //红色单元格
+                            style = workbookStandard.CreateCellStyle();
+                            if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
+                            {
+
+                                style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
+                                style.FillPattern = FillPattern.SolidForeground;
+                                cellStandard.CellStyle = style;
+
+                            }
+                            if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
+                            {
+                                cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
+                            }
+                            cellStandard.SetCellValue(item.Value.Value);
+                             
+                        }
+                    }
+                }
+
+                ISheet sheetfileStandard4 = workbookStandard.GetSheetAt(4);
+                for (int i = 0; i < manyBase.Count; i++)
+                {
+                    CopyRow(workbookStandard, sheetfileStandard4, manyBase[i].sheet, manyBase[i].Row, i);
+                }
+
+                ISheet sheetfileStandard5 = workbookStandard.GetSheetAt(5);
+                for (int i = 0; i < manyMatch.Count; i++)
+                {
+                    CopyRow(workbookStandard, sheetfileStandard5, manyMatch[i].sheet, manyMatch[i].Row, i);
                 }
 
 
@@ -272,7 +347,7 @@ namespace Langben.BLL
 
                 var saveFileName = entity.GoldTempFullPath.Path(guid);
                 entity.Result = saveFileName;
-                string xlsPathFileName = pathmy + @"\up\Result\" + saveFileName;
+                 xlsPathFileName = pathmy + @"\up\Result\" + saveFileName;
                 using (FileStream fileWrite = new FileStream(xlsPathFileName, FileMode.Create))
                 {
                     workbookStandard.Write(fileWrite);
@@ -283,7 +358,7 @@ namespace Langben.BLL
 
                 throw;
             }
-            return err;
+            return xlsPathFileName;
         }
         public static bool IsSame(IEnumerable<MatchDetail> detail, StandardMatch baseExcle, StandardMatch matchExcel)
         {

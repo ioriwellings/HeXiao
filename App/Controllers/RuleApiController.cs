@@ -52,8 +52,7 @@ namespace Langben.App.Controllers
                 foreach (var item in entity.MatchDetail)
                 {
                     item.Id = Common.Result.GetNewId();
-                    item.CreateTime = DateTime.Now;
-                    item.CreatePerson = currentPerson;
+                   
                     item.Vertion = entity.Vertion;
                 }
 
@@ -103,18 +102,7 @@ namespace Langben.App.Controllers
                 string currentPerson = GetCurrentPerson();
                 entity.UpdateTime = DateTime.Now;
                 entity.UpdatePerson = currentPerson;
-
-                foreach (var item in entity.MatchDetail)
-                {
-                    if (string.IsNullOrEmpty(item.Id))
-                    {
-                        item.Id = Common.Result.GetNewId();
-                        item.CreateTime = DateTime.Now;
-                        item.CreatePerson = currentPerson;
-                        item.Vertion = entity.Vertion;
-                    }
-                }
-
+                 
                 string returnValue = string.Empty;
                 if (m_BLL.Edit(ref validationErrors, entity))
                 {
