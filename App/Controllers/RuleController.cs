@@ -28,10 +28,12 @@ namespace Langben.App.Controllers
         public ActionResult PostData(DTParameters getParam)
         {
             int total = 0;
-            int page = (getParam.Start != 0) ? 1 : ((getParam.Start / getParam.Length) + 1);int vertion = GetVersion();getParam.Search.Value += "^VertionDDL_Int&" + vertion.ToString();
+            int page = (getParam.Start != 0) ? 1 : ((getParam.Start / getParam.Length) + 1);
+            int vertion = GetVersion();
+         
 
 
-            List<Rule> queryData = m_BLL.GetByParam(null, page, getParam.Length, getParam.DescOrAsc, getParam.SortOrder, getParam.Search.Value, ref total);
+            List<Rule> queryData = m_BLL.GetByParam( vertion, page, getParam.Length, getParam.DescOrAsc, getParam.SortOrder, null, ref total);
             DTResult<Rule> result = new DTResult<Rule>
             {
                 draw = getParam.Draw,

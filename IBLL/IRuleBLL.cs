@@ -26,7 +26,7 @@ namespace Langben.IBLL
         /// <param name="total">结果集的总数</param>
         /// <returns>结果集</returns>
         [OperationContract]
-        List<Rule> GetByParam(string id, int page, int rows, string order, string sort, string search, ref int total);
+        List<Rule> GetByParam(int id, int page, int rows, string order, string sort, string search, ref int total);
         /// <summary>
         /// 查询的数据
         /// </summary>
