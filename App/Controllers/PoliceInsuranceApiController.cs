@@ -66,7 +66,7 @@ namespace Langben.App.Controllers
             if (entity != null && ModelState.IsValid)
             {
                 string currentPerson = GetCurrentPerson();
-                entity.CreateTime = DateTime.Now;entity.Id = Result.GetNewId(); 
+                entity.CreateTime = DateTime.Now; 
                 entity.CreatePerson = currentPerson;
                 entity.Vertion = GetVersion();
                 entity.Id = Result.GetNewId();   

@@ -15,9 +15,7 @@ namespace Langben.BLL
     {
         public List<Rule> GetByVertion(int vertion)
         {
-         
-                return db.Rule.Where(w => w.State != "删除" && w.Vertion == vertion).ToList();
-           
+            return db.Rule.Where(w => w.State != "删除" && w.Vertion == vertion).ToList();
         }
         /// <summary>
         /// 查询的数据

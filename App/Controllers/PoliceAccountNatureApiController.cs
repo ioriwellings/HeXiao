@@ -46,8 +46,8 @@ namespace Langben.App.Controllers
                 string currentPerson = GetCurrentPerson();
                 entity.CreateTime = System.DateTime.Now;entity.Id = Result.GetNewId(); 
                 entity.CreatePerson = currentPerson;
-                entity.Id = Result.GetNewId();
-                entity.Id = Result.GetNewId();
+                entity.Vertion = GetVersion();
+
                 string returnValue = string.Empty;
                 if (m_BLL.Create(ref validationErrors, entity))
                 {

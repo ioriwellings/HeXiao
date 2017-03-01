@@ -120,9 +120,9 @@ namespace Langben.App.Controllers
             if (entity != null && ModelState.IsValid)
             {   //数据校验
 
-                //string currentPerson = GetCurrentPerson();
-                //entity.UpdateTime = DateTime.Now;
-                //entity.UpdatePerson = currentPerson;
+                string currentPerson = GetCurrentPerson();
+                entity.UpdateTime = DateTime.Now;
+                entity.UpdatePerson = currentPerson;
 
                 string returnValue = string.Empty;
                 if (m_BLL.Edit(ref validationErrors, entity))

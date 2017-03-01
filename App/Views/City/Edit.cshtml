@@ -20,32 +20,8 @@
             
             <div class="row">
        
-            <div class="editor-label">
-                <a class="anUnderLine" onclick="showModalOnly('Cit_Id','../../City');">
-                    @Html.LabelFor(model => model.Cit_Id) 
-                </a>：
-            </div>
-            <div class="editor-field">
-                <div id="checkCit_Id">
-                    @if(Model!=null)
-                        {
-                        if (!string.IsNullOrWhiteSpace(Model.Cit_Id))
-                        {
-                    <table  id="@Model.Cit_Id"
-                        class="deleteStyle">
-                        <tr>
-                            <td>
-                                <img  alt="删除"  title="点击删除" src="../../../Images/deleteimge.png" onclick="deleteTable('@Model.Cit_Id ','Cit_Id');"/>
-                            </td>
-                            <td>
-                                @Model.City2.Name
-                            </td>
-                        </tr>
-                    </table>
-                     }} 
-                </div>
-                @Html.HiddenFor(model => model.Cit_Id)
-            </div> 
+            
+           
                 <div class="col-md-6">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-4" })
@@ -60,36 +36,7 @@
                 </div>
 
             </div>
-
-            <div class="row">
  
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.State, new { @class = "control-label col-md-4" })
-                        <div class="col-md-8">
-                            @Html.DropDownListFor(model => model.State,Models.SysFieldModels.GetSysField("City","State"),"请选择", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.State)
-                            <span class="help-block">
-
-                            </span>
-                        </div>
-                    </div>
-                </div>
- 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Vertion, new { @class = "control-label col-md-4" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(model => model.Vertion, new { onkeyup = "isInt(this)", @class = "form-control", placeholder = Html.DisplayNameFor(model => model.Vertion) })
-                            @Html.ValidationMessageFor(model => model.Vertion)
-                            <span class="help-block">
-
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
 
             <div class="row">
 
@@ -130,13 +77,57 @@
     <!-- END FORM-->
 </div>
 
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
 <script type="text/javascript">
 
     $(function () {
-        
-    });
-    
 
+        $("form").submit(function (form) {
+            debugger
+            if (form.result) {
+
+                $.ajax({
+                    url: this.action,
+                    type: "Put",
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function (data) {
+                        debugger
+                        $.confirm({
+                            title: '操作提示',
+                            backgroundDismiss: true,//Click outside the dialog, and i shall close!'
+                            content: data.Message,
+                            buttons: {
+                                ok: {
+                                    text: "继续",
+                                    btnClass: 'btn-primary',
+                                    keys: ['enter'],
+                                    action: function () {
+
+                                    }
+                                },
+                                cancel: {
+                                    text: "返回",
+                                    btnClass: 'btn',
+                                    action: function () {
+                                        $("#contentBody").load("/City", function () {
+
+                                        });
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                });
+            }
+            return false;
+        });
+
+    });
 
 </script>
 
