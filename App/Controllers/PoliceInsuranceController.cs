@@ -34,7 +34,7 @@ namespace Langben.App.Controllers
             var queryData = m_BLL.GetByParam(getParam.Search.Value.Trim(), page, getParam.Length, getParam.DescOrAsc, getParam.SortOrder, "^VertionDDL_Int&" + vertion.ToString(), ref total)
                  .Select(s => new
                  {
-
+                     Name=s.Name,
                      CityId = s.CityId
                      ,
                      PoliceAccountNatureId = s.PoliceAccountNatureId
