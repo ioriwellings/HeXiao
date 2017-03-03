@@ -287,13 +287,13 @@ namespace Langben.BLL
                 bool isCol = false;
                 bool isCol2 = false;
                 Dictionary<int, int> flag = new Dictionary<int, int>();
-
+                Dictionary<int, int> flag2 = new Dictionary<int, int>();
                 for (int i = 0; i < newDiffrent.Count; i++)
                 {
                     var dataRow = sheetfileStandard2.CreateRow(i + 2);
 
 
-                    int j = 0;
+                    int j = -1;
 
                     foreach (var item in newDiffrent[i].Base.list.OrderBy(o => o.Key))
                     {
@@ -328,7 +328,7 @@ namespace Langben.BLL
                     {
                         j++;
                         var cellStandard = dataRow.CreateCell(j);
-                        if (!isCol2) flag.Add(item.Key, j);
+                        if (!isCol2) flag2.Add(item.Key, j);
 
                         //红色单元格
                         style = workbookStandard.CreateCellStyle();
@@ -359,12 +359,21 @@ namespace Langben.BLL
                     foreach (var item in flag)
                     {
 
-                        CopyRow(workbookStandard, sheetfileStandard1, sheet2, t, t, item.Key, item.Value);
+                        CopyRow(workbookStandard, sheetfileStandard2, sheet, t, t, item.Key-1, item.Value);
 
                     }
 
                 }
+                for (int t = 0; t < 2; t++)//复制表头
+                {
+                    foreach (var item in flag2)
+                    {
 
+                        CopyRow(workbookStandard, sheetfileStandard2, sheet2, t, t, item.Key-1, item.Value);
+
+                    }
+
+                }
 
                 ISheet sheetfileStandard3 = workbookStandard.GetSheetAt(3);
                 for (int i = 0; i < newSame.Count; i++)
@@ -613,14 +622,18 @@ namespace Langben.BLL
         private static void CopyRow(IWorkbook workbook, ISheet destinationsheet, ISheet sourcesheet, int sourcerow, int destinationRowNum, int sourceCol, int destinationCol)
         {
             // Get the source / new row
-            var newRow = destinationsheet.CreateRow(destinationRowNum);
+            var newRow = destinationsheet.GetRow(destinationRowNum);
+            if (newRow == null)
+            { newRow = destinationsheet.CreateRow(destinationRowNum);
+             
+            }
+           
             var sourceRow = sourcesheet.GetRow(sourcerow);
             if (sourceRow == null)
             {
                 return;
             }
-            var newCellStyle = workbook.CreateCellStyle();
-
+            
             // Grab a copy of the old/new cell
             var sourceCell = sourceRow.GetCell(sourceCol);
             var newCell = newRow.CreateCell(destinationCol);
@@ -631,11 +644,6 @@ namespace Langben.BLL
                 newCell = null;
                 return;
             }
-
-            // Copy style from old cell and apply to new cell
-
-            newCellStyle.CloneStyleFrom(sourceCell.CellStyle);
-            newCell.CellStyle = newCellStyle;
 
             // If there is a cell comment, copy
             if (newCell.CellComment != null) newCell.CellComment = sourceCell.CellComment;
