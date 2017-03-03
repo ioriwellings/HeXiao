@@ -151,8 +151,8 @@
         <!-- BEGIN HEADER INNER -->
         <div class="page-header-inner">
             <!-- BEGIN LOGO -->
-            <div class="page-logo">
-                <h2 style="margin-top:6px;">
+            <div class="page-logo"> 
+                <h2 style="margin-top:6px;color: #606366;">
                     好工具
                 </h2>
                 <div class="menu-toggler sidebar-toggler hide">
@@ -175,10 +175,8 @@
         <div class="page-sidebar-wrapper ">
             <!--page-sidebar-fixed -->
             <div class="page-sidebar navbar-collapse collapse" data-auto-scroll="true">
-                <!-- BEGIN SIDEBAR MENU -->
 
                 <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" id="AllMenu">
-
 
                     <li id='liRecruit' class="active open">
                         <a href='javascript:void(0);'>
@@ -212,10 +210,25 @@
                     </li>
 
 
-                    @*@Html.Raw(ViewData["Menu"].ToString())*@
+                    <!-- BEGIN SIDEBAR MENU -->
+                    <li class="sidebar-search-wrapper">
+                        <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+                        <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+                        <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+                    
+                        <div class="input-group" style="margin-top:30px; font-size:large;color: #606366;">
+                            北京狼奔科技有限公司
+                            <br /><br />
+                            010-57235222
+                        </div> 
+
+                        <!-- END RESPONSIVE QUICK SEARCH FORM -->
+                    </li>
+
                 </ul>
                 <!-- END SIDEBAR MENU -->
             </div>
+
         </div>
 
         <!-- END SIDEBAR -->
