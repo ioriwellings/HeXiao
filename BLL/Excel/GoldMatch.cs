@@ -50,7 +50,7 @@ namespace Langben.BLL
 
                         standardBase.list.Add(lie, new CalculateResult());
                         standardBase.Row = i;
-                    
+
                         cell = sheet.GetRow(i).GetCell(lie - 1);
                         if (cell != null)
                         {
@@ -102,7 +102,7 @@ namespace Langben.BLL
                 xlsPath = pathmy + entity.GoldTempFullPath;
                 file = new FileStream(xlsPath, FileMode.Open, FileAccess.Read);
                 workbook = WorkbookFactory.Create(file);
-            var    sheet2 = workbook.GetSheetAt(0);
+                var sheet2 = workbook.GetSheetAt(0);
                 List<StandardMatch> listMatch = new List<StandardMatch>();
                 StandardSecond standardMatch = null;
 
@@ -116,7 +116,7 @@ namespace Langben.BLL
                     {
                         int lie = (int)item.MatchExcel;
                         standardMatch.Row = i;
-                      
+
                         standardMatch.list.Add(lie, new CalculateResult());
 
                         cell = sheet2.GetRow(i).GetCell(lie - 1);
@@ -233,20 +233,24 @@ namespace Langben.BLL
                 var goldExcel = detail.Where(w => w.BaseMatch == "对比项设定");
                 foreach (var item in purBase)
                 {
-                    var match = (from m in purMatch where m.Condition == item.Condition select m).First();
-                    StandardMatchBaseTogether bm = new BLL.StandardMatchBaseTogether();
-                    bm.Base = item;
-                    bm.Match = match;
-                    if (IsSame(goldExcel, item, match))
+                    var match = (from m in purMatch where m.Condition == item.Condition select m).FirstOrDefault();
+                    if (match != null)
                     {
+                        StandardMatchBaseTogether bm = new BLL.StandardMatchBaseTogether();
+                        bm.Base = item;
+                        bm.Match = match;
+                        if (IsSame(goldExcel, item, match))
+                        {
 
-                        newSame.Add(bm);
-                    }
-                    else
-                    {
-                        newDiffrent.Add(bm);
+                            newSame.Add(bm);
+                        }
+                        else
+                        {
+                            newDiffrent.Add(bm);
 
+                        }
                     }
+
 
                 }
                 //写入excel
@@ -259,7 +263,7 @@ namespace Langben.BLL
                 ISheet sheetfileStandard = workbookStandard.GetSheetAt(0);
                 for (int i = 0; i < 2; i++)//复制表头
                 {
-                    CopyRow(workbookStandard, sheetfileStandard,  sheet, i, i );
+                    CopyRow(workbookStandard, sheetfileStandard, sheet, i, i);
                 }
                 for (int i = 0; i < onlyBase.Count; i++)
                 {
@@ -287,7 +291,7 @@ namespace Langben.BLL
                     if (null != (newDiffrent[i]))
                     {
                         int j = 0;
-                        foreach (var item in newDiffrent[i].Base.list.OrderBy(o=>o.Key))
+                        foreach (var item in newDiffrent[i].Base.list.OrderBy(o => o.Key))
                         {
                             j++;
                             var cellStandard = dataRow.CreateCell(j);
@@ -307,7 +311,7 @@ namespace Langben.BLL
                                 cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
                             }
                             cellStandard.SetCellValue(item.Value.Value);
-                            
+
                         }
                         foreach (var item in newDiffrent[i].Match.list.OrderBy(o => o.Key))
                         {
@@ -334,7 +338,7 @@ namespace Langben.BLL
                     }
                 }
 
-                 ISheet sheetfileStandard3 = workbookStandard.GetSheetAt(3);
+                ISheet sheetfileStandard3 = workbookStandard.GetSheetAt(3);
                 for (int i = 0; i < newSame.Count; i++)
                 {
                     var dataRow = sheetfileStandard3.CreateRow(i + 2);
@@ -346,7 +350,7 @@ namespace Langben.BLL
                         {
                             j++;
                             var cellStandard = dataRow.CreateCell(j);
-                             
+
                             if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
                             {
                                 cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
@@ -358,7 +362,7 @@ namespace Langben.BLL
                         {
                             j++;
                             var cellStandard = dataRow.CreateCell(j);
-                             
+
                             if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
                             {
                                 cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
@@ -376,7 +380,7 @@ namespace Langben.BLL
                 }
                 for (int i = 0; i < manyBase.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard4,  sheet, manyBase[i].Row, i + 2);
+                    CopyRow(workbookStandard, sheetfileStandard4, sheet, manyBase[i].Row, i + 2);
                 }
 
                 ISheet sheetfileStandard5 = workbookStandard.GetSheetAt(5);
@@ -495,7 +499,7 @@ namespace Langben.BLL
             // Get the source / new row
             var newRow = destinationsheet.CreateRow(destinationRowNum);
             var sourceRow = sourcesheet.GetRow(row);
-            if (sourceRow==null)
+            if (sourceRow == null)
             {
                 return;
             }
@@ -516,7 +520,7 @@ namespace Langben.BLL
                 }
 
                 // Copy style from old cell and apply to new cell
-             
+
                 newCellStyle.CloneStyleFrom(sourceCell.CellStyle);
                 newCell.CellStyle = newCellStyle;
 
@@ -579,6 +583,6 @@ namespace Langben.BLL
 
         }
 
-     
+
     }
 }
