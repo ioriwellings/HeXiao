@@ -87,7 +87,7 @@ namespace Langben.DAL
         public object CompanyNumber { get; set; }
 
         [ScaffoldColumn(true)]
-        [Display(Name = "员工常量", Order = 14)]
+        [Display(Name = "个人常量", Order = 14)]
         [DataType(System.ComponentModel.DataAnnotations.DataType.Currency, ErrorMessage = "货币格式不正确")]
         public object EmployeeNumber { get; set; }
 
@@ -97,7 +97,7 @@ namespace Langben.DAL
         public object CompanyLowestNumber { get; set; }
 
         [ScaffoldColumn(true)]
-        [Display(Name = "员工最低基数", Order = 14)]
+        [Display(Name = "个人最低基数", Order = 14)]
         [DataType(System.ComponentModel.DataAnnotations.DataType.Currency, ErrorMessage = "货币格式不正确")]
         public object EmployeeLowestNumber { get; set; }
 
@@ -117,12 +117,12 @@ namespace Langben.DAL
         public object SocialWage { get; set; }
 
         [ScaffoldColumn(true)]
-        [Display(Name = "员工最高基数", Order = 18)]
+        [Display(Name = "个人最高基数", Order = 18)]
         [DataType(System.ComponentModel.DataAnnotations.DataType.Currency, ErrorMessage = "货币格式不正确")]
         public object EmployeeHighestNumber { get; set; }
 
         [ScaffoldColumn(true)]
-        [Display(Name = "员工比例", Order = 19)]
+        [Display(Name = "个人比例", Order = 19)]
         public object EmployeePercent { get; set; }
 
         [ScaffoldColumn(true)]
@@ -136,12 +136,12 @@ namespace Langben.DAL
         public int? CompanyDigit { get; set; }
 
         [ScaffoldColumn(true)]
-        [Display(Name = "员工承担截取规则", Order = 22)]
+        [Display(Name = "个人承担截取规则", Order = 22)]
         [Range(0, 2147483646, ErrorMessage = "数值超出范围")]
         public int? EmployeeSub { get; set; }
 
         [ScaffoldColumn(true)]
-        [Display(Name = "员工承担小数点位数", Order = 23)]
+        [Display(Name = "个人承担小数点位数", Order = 23)]
         [Range(0, 2147483646, ErrorMessage = "数值超出范围")]
         public int? EmployeeDigit { get; set; }
 

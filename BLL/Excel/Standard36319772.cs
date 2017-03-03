@@ -34,7 +34,7 @@ namespace Langben.BLL
                 list[11].Calculate = data.CompanyPercent.ToString() + "%";
                 list[12].Calculate = Scale(data, "企业", list[10].Value);
                 list[13].Calculate = data.EmployeePercent.ToString() + "%";
-                list[14].Calculate = Scale(data, "员工", list[10].Value);
+                list[14].Calculate = Scale(data, "个人", list[10].Value);
                 //list[11].Red = Different(data, "企业", list[11].Value);//错误配置，因为在第34行已经为其赋值了，就会自动对比是否相同
             
             }
@@ -46,7 +46,7 @@ namespace Langben.BLL
                 list[16].Calculate = data.CompanyPercent.ToString() + "%";
                 list[17].Calculate = Scale(data, "企业", list[15].Value);
                 list[18].Calculate = data.EmployeePercent.ToString() + "%";
-                list[19].Calculate = Scale(data, "员工", list[15].Value);
+                list[19].Calculate = Scale(data, "个人", list[15].Value);
       
             }
 
@@ -57,7 +57,7 @@ namespace Langben.BLL
                 list[21].Calculate = data.CompanyPercent.ToString() + "%";
                 list[22].Calculate = Scale(data, "企业", list[20].Value);
                 list[23].Calculate = data.EmployeePercent.ToString() + "%";
-                list[24].Calculate = Scale(data, "员工", list[20].Value);
+                list[24].Calculate = Scale(data, "个人", list[20].Value);
             
             }
 
@@ -86,7 +86,7 @@ namespace Langben.BLL
                 list[32].Calculate = data.CompanyPercent.ToString() + "%";
                 list[33].Calculate = Scale(data, "企业", list[31].Value);
                 list[34].Calculate = data.EmployeePercent.ToString() + "%";
-                list[35].Calculate = Scale(data, "员工", list[31].Value);
+                list[35].Calculate = Scale(data, "个人", list[31].Value);
          
             }
             return true;

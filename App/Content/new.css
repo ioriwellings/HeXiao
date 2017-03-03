@@ -1929,7 +1929,7 @@ width:600px; height:360px; position:fixed; _position:absolute; z-index:100; top:
     }
 .sendNotice a.current i.arrow{ display:block
     }
-/*顶部固定的员工信息*/
+/*顶部固定的个人信息*/
 .top-employee-info{ margin: 0 0 20px 0; border-bottom:1px solid #d6d6d6; padding-bottom:10px}    
 .top-employee-info h3 {
     margin-top:0; font-size:18px; font-weight:500}
@@ -2006,7 +2006,7 @@ opacity: 1;
 .interviewList:hover{ background:#F5F5F5}
 /*面试评定list */
 
-/*员工信息tab */
+/*个人信息tab */
 #wrap_info .item {
 	
 	width:100%;
@@ -2073,7 +2073,7 @@ opacity: 1;
 	padding:0 15px;
 }
 
-/*员工信息tab */
+/*个人信息tab */
 /*气泡提示开始 */
 .docBubble {position:absolute;max-width:240px; text-align:left;text-align:left;z-index:100; }
 .docBubble a{ margin-left:0;}
