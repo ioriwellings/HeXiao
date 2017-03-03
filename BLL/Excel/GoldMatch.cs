@@ -284,59 +284,87 @@ namespace Langben.BLL
                 }
 
                 ISheet sheetfileStandard2 = workbookStandard.GetSheetAt(2);
+                bool isCol = false;
+                bool isCol2 = false;
+                Dictionary<int, int> flag = new Dictionary<int, int>();
+
                 for (int i = 0; i < newDiffrent.Count; i++)
                 {
                     var dataRow = sheetfileStandard2.CreateRow(i + 2);
 
-                    if (null != (newDiffrent[i]))
+
+                    int j = 0;
+
+                    foreach (var item in newDiffrent[i].Base.list.OrderBy(o => o.Key))
                     {
-                        int j = 0;
-                        foreach (var item in newDiffrent[i].Base.list.OrderBy(o => o.Key))
+                        j++;
+                        var cellStandard = dataRow.CreateCell(j);
+
+                        if (!isCol) flag.Add(item.Key, j);
+
+                        //红色单元格
+                        style = workbookStandard.CreateCellStyle();
+                        if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
                         {
-                            j++;
-                            var cellStandard = dataRow.CreateCell(j);
 
-                            //红色单元格
-                            style = workbookStandard.CreateCellStyle();
-                            if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
-                            {
-
-                                style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
-                                style.FillPattern = FillPattern.SolidForeground;
-                                cellStandard.CellStyle = style;
-
-                            }
-                            if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
-                            {
-                                cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
-                            }
-                            cellStandard.SetCellValue(item.Value.Value);
+                            style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
+                            style.FillPattern = FillPattern.SolidForeground;
+                            cellStandard.CellStyle = style;
 
                         }
-                        foreach (var item in newDiffrent[i].Match.list.OrderBy(o => o.Key))
+                        if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
                         {
-                            j++;
-                            var cellStandard = dataRow.CreateCell(j);
+                            cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
+                        }
+                        cellStandard.SetCellValue(item.Value.Value);
 
-                            //红色单元格
-                            style = workbookStandard.CreateCellStyle();
-                            if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
-                            {
+                    }
+                    if (!isCol)
+                    {
+                        isCol = true;
+                    }
+                    j++;//加一列空白
+                    foreach (var item in newDiffrent[i].Match.list.OrderBy(o => o.Key))
+                    {
+                        j++;
+                        var cellStandard = dataRow.CreateCell(j);
+                        if (!isCol2) flag.Add(item.Key, j);
 
-                                style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
-                                style.FillPattern = FillPattern.SolidForeground;
-                                cellStandard.CellStyle = style;
+                        //红色单元格
+                        style = workbookStandard.CreateCellStyle();
+                        if (item.Value.Red || string.IsNullOrWhiteSpace(item.Value.Value))
+                        {
 
-                            }
-                            if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
-                            {
-                                cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
-                            }
-                            cellStandard.SetCellValue(item.Value.Value);
+                            style.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Red.Index;
+                            style.FillPattern = FillPattern.SolidForeground;
+                            cellStandard.CellStyle = style;
 
                         }
+                        if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
+                        {
+                            cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
+                        }
+                        cellStandard.SetCellValue(item.Value.Value);
+
+                    }
+                    if (!isCol2)
+                    {
+                        isCol2 = true;
                     }
                 }
+
+
+                for (int t = 0; t < 2; t++)//复制表头
+                {
+                    foreach (var item in flag)
+                    {
+
+                        CopyRow(workbookStandard, sheetfileStandard1, sheet2, t, t, item.Key, item.Value);
+
+                    }
+
+                }
+
 
                 ISheet sheetfileStandard3 = workbookStandard.GetSheetAt(3);
                 for (int i = 0; i < newSame.Count; i++)
@@ -494,11 +522,11 @@ namespace Langben.BLL
         /// <param name="destinationsheet">WorkSheet containing rows to be copied</param>
         /// <param name="sourceRowNum">Source Row Number</param>
         /// <param name="destinationRowNum">Destination Row Number</param>
-        private static void CopyRow(IWorkbook workbook, ISheet destinationsheet, ISheet sourcesheet, int row, int destinationRowNum)
+        private static void CopyRow(IWorkbook workbook, ISheet destinationsheet, ISheet sourcesheet, int sourcerow, int destinationRowNum)
         {
             // Get the source / new row
             var newRow = destinationsheet.CreateRow(destinationRowNum);
-            var sourceRow = sourcesheet.GetRow(row);
+            var sourceRow = sourcesheet.GetRow(sourcerow);
             if (sourceRow == null)
             {
                 return;
@@ -580,6 +608,69 @@ namespace Langben.BLL
             //列合并，以下为复制模板行的单元格合并格式                    
 
 
+
+        }
+        private static void CopyRow(IWorkbook workbook, ISheet destinationsheet, ISheet sourcesheet, int sourcerow, int destinationRowNum, int sourceCol, int destinationCol)
+        {
+            // Get the source / new row
+            var newRow = destinationsheet.CreateRow(destinationRowNum);
+            var sourceRow = sourcesheet.GetRow(sourcerow);
+            if (sourceRow == null)
+            {
+                return;
+            }
+            var newCellStyle = workbook.CreateCellStyle();
+
+            // Grab a copy of the old/new cell
+            var sourceCell = sourceRow.GetCell(sourceCol);
+            var newCell = newRow.CreateCell(destinationCol);
+
+            // If the old cell is null jump to next cell
+            if (sourceCell == null)
+            {
+                newCell = null;
+                return;
+            }
+
+            // Copy style from old cell and apply to new cell
+
+            newCellStyle.CloneStyleFrom(sourceCell.CellStyle);
+            newCell.CellStyle = newCellStyle;
+
+            // If there is a cell comment, copy
+            if (newCell.CellComment != null) newCell.CellComment = sourceCell.CellComment;
+
+            // If there is a cell hyperlink, copy
+            if (sourceCell.Hyperlink != null) newCell.Hyperlink = sourceCell.Hyperlink;
+
+            // Set the cell data type
+            newCell.SetCellType(sourceCell.CellType);
+
+            // Set the cell data value
+            switch (sourceCell.CellType)
+            {
+                case CellType.Blank:
+                    newCell.SetCellValue(sourceCell.StringCellValue);
+                    break;
+                case CellType.Boolean:
+                    newCell.SetCellValue(sourceCell.BooleanCellValue);
+                    break;
+                case CellType.Error:
+                    newCell.SetCellErrorValue(sourceCell.ErrorCellValue);
+                    break;
+                case CellType.Formula:
+                    newCell.SetCellFormula(sourceCell.CellFormula);
+                    break;
+                case CellType.Numeric:
+                    newCell.SetCellValue(sourceCell.NumericCellValue);
+                    break;
+                case CellType.String:
+                    newCell.SetCellValue(sourceCell.RichStringCellValue);
+                    break;
+                case CellType.Unknown:
+                    newCell.SetCellValue(sourceCell.StringCellValue);
+                    break;
+            }
 
         }
 

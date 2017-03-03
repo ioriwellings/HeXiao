@@ -8,7 +8,7 @@
 <html lang="zh-CN">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>管理信息系统</title>
+    <title>好工具</title>
     <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -76,9 +76,9 @@
                 $("#contentBody").load("\\" + pageurl, function () {
 
                 });
-                
+
                 $("ul.sub-menu li").find("a[page]").each(function () {
-                   
+
                     if ($(this).attr("page") == pageurl) {
 
                         if (lastLink != undefined) {
@@ -152,7 +152,9 @@
         <div class="page-header-inner">
             <!-- BEGIN LOGO -->
             <div class="page-logo">
-                <a href="#" style="margin-top:10px; font-size:larger"> </a>
+                <h2 style="margin-top:6px;">
+                    好工具
+                </h2>
                 <div class="menu-toggler sidebar-toggler hide">
                     <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
                 </div>
@@ -162,7 +164,6 @@
             <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
             <!-- END RESPONSIVE MENU TOGGLER -->
             <!-- BEGIN TOP NAVIGATION MENU -->
-    
             <!-- END TOP NAVIGATION MENU -->
         </div>
         <!-- END HEADER INNER -->
@@ -184,13 +185,13 @@
                             <span class='icn-uniE608'>
                                 <span class='path1'></span><span class='path2'></span>
                             </span>
-                            <span class='title'>社保核销</span> <span class='selected'></span> 
+                            <span class='title'>社保核销</span> <span class='selected'></span>
                             <span class='arrow open'></span>
                         </a>
                         <ul id='ulRecruit' class='sub-menu'>
                             <li class="active"><a href='javascript:void(0);' page="MatchResult" id="1311011720196053073ccff5a1c7e">核销对比</a></li>
                             <li><a href='javascript:void(0);' page="MYResult" id="1311011720196053073ccff5a1c7c">制作转换</a></li>
-                         
+
                             <li><a href='javascript:void(0);' page="Rule" id="1311011720196053073ccff5a1c7d">核销规则</a></li>
 
                         </ul>
