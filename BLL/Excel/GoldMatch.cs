@@ -499,6 +499,7 @@ namespace Langben.BLL
             {
                 return;
             }
+            var newCellStyle = workbook.CreateCellStyle();
             int startMergeCell = -1; //记录每行的合并单元格起始位置
             // Loop through source columns to add to new row
             for (int i = 0; i < sourceRow.LastCellNum; i++)
@@ -515,7 +516,7 @@ namespace Langben.BLL
                 }
 
                 // Copy style from old cell and apply to new cell
-                var newCellStyle = workbook.CreateCellStyle();
+             
                 newCellStyle.CloneStyleFrom(sourceCell.CellStyle);
                 newCell.CellStyle = newCellStyle;
 
