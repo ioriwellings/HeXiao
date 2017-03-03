@@ -358,23 +358,21 @@ namespace Langben.BLL
                 {
                     foreach (var item in flag)
                     {
-
                         CopyRow(workbookStandard, sheetfileStandard2, sheet, t, t, item.Key-1, item.Value);
-
                     }
-
                 }
                 for (int t = 0; t < 2; t++)//复制表头
                 {
                     foreach (var item in flag2)
                     {
-
                         CopyRow(workbookStandard, sheetfileStandard2, sheet2, t, t, item.Key-1, item.Value);
-
                     }
-
                 }
 
+                bool isCol3 = false;
+                bool isCol4 = false;
+                Dictionary<int, int> flag3 = new Dictionary<int, int>();
+                Dictionary<int, int> flag4 = new Dictionary<int, int>();
                 ISheet sheetfileStandard3 = workbookStandard.GetSheetAt(3);
                 for (int i = 0; i < newSame.Count; i++)
                 {
@@ -382,12 +380,12 @@ namespace Langben.BLL
 
                     if (null != (newSame[i]))
                     {
-                        int j = 0;
+                        int j = -1;
                         foreach (var item in newSame[i].Base.list.OrderBy(o => o.Key))
                         {
                             j++;
                             var cellStandard = dataRow.CreateCell(j);
-
+                            if (!isCol3) flag3.Add(item.Key, j);
                             if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
                             {
                                 cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
@@ -395,11 +393,16 @@ namespace Langben.BLL
                             cellStandard.SetCellValue(item.Value.Value);
 
                         }
+                        if (!isCol3)
+                        {
+                            isCol3 = true;
+                        }
+                        j++;//加一列空白
                         foreach (var item in newSame[i].Match.list.OrderBy(o => o.Key))
                         {
                             j++;
                             var cellStandard = dataRow.CreateCell(j);
-
+                            if (!isCol4) flag4.Add(item.Key, j);
                             if ((!string.IsNullOrWhiteSpace(item.Value.Value)) && item.Value.Value.Contains('%'))
                             {
                                 cellStandard.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat(item.Value.Percent);
@@ -407,6 +410,25 @@ namespace Langben.BLL
                             cellStandard.SetCellValue(item.Value.Value);
 
                         }
+                        if (!isCol4)
+                        {
+                            isCol4 = true;
+                        }
+                    }
+                }
+
+                for (int t = 0; t < 2; t++)//复制表头
+                {
+                    foreach (var item in flag3)
+                    {
+                        CopyRow(workbookStandard, sheetfileStandard3, sheet, t, t, item.Key - 1, item.Value);
+                    }
+                }
+                for (int t = 0; t < 2; t++)//复制表头
+                {
+                    foreach (var item in flag4)
+                    {
+                        CopyRow(workbookStandard, sheetfileStandard3, sheet2, t, t, item.Key - 1, item.Value);
                     }
                 }
 
