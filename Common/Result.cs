@@ -9,7 +9,19 @@ namespace Common
     /// 系统公共使用部分
     /// </summary>
     public static class Result
-    { 
+    {       /// <summary>
+            /// 获取字符串类型的主键
+            /// </summary>
+            /// <returns></returns>
+        public static string GetNewIdExcel()
+        {
+
+            string id = DateTime.Now.ToString("yyMMddHHmmss");
+            string guid = Guid.NewGuid().ToString().Replace("-", "");
+
+            id += guid.Substring(0, 2);
+            return id;
+        }
         /// <summary>
         /// 获取字符串类型的主键
         /// </summary>

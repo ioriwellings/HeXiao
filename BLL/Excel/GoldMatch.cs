@@ -453,7 +453,7 @@ namespace Langben.BLL
                 }
 
 
-                string guid = Common.Result.GetNewId();
+                string guid = Common.Result.GetNewIdExcel();
 
                 var saveFileName = entity.GoldTempFullPath.Path(guid);
                 entity.Result = saveFileName;
