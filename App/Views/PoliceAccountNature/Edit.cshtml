@@ -86,7 +86,7 @@
     $(function () {
 
         $("form").submit(function (form) {
-            debugger
+            
             if (form.result) {
 
                 $.ajax({
@@ -95,7 +95,7 @@
                     data: $(this).serialize(),
                     dataType: "json",
                     success: function (data) {
-                        debugger
+                     
                         $.confirm({
                             title: '操作提示',
                             backgroundDismiss: true,//Click outside the dialog, and i shall close!'

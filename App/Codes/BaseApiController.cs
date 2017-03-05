@@ -17,6 +17,7 @@ using System.Web.Script.Serialization;
 
 namespace Models
 {
+
     public class BaseApiController : ApiController
     {
         /// <summary>
@@ -25,8 +26,7 @@ namespace Models
         /// <returns></returns>
         public int GetVersion()
         {
-            return 36319772;
-
+            return AccountModel.GetVersion();
 
         }
         /// <summary>

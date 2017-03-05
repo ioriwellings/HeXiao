@@ -18,7 +18,7 @@ using System.Web;
 
 namespace Models
 {
-    //[SupportFilter]//此处如果去掉注释，则全部继承BaseController的Controller，都将执行SupportFilter过滤
+    [SupportFilter]//此处如果去掉注释，则全部继承BaseController的Controller，都将执行SupportFilter过滤
     public class BaseController : Controller
     {        /// <summary>
              /// 获取当前登陆人的唯一数字标识
@@ -26,6 +26,8 @@ namespace Models
              /// <returns></returns>
         public int GetVersion()
         {
+
+
             return AccountModel.GetVersion();
 
 
@@ -217,7 +219,11 @@ namespace Models
         }
 
         public BaseController()
-        { }
+        {
+           
+
+
+        }
 
     }
 }

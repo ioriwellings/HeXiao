@@ -120,9 +120,9 @@ namespace Langben.App.Controllers
             if (entity != null && ModelState.IsValid)
             {
                 string currentPerson = GetCurrentPerson();
-                entity.CreateTime = DateTime.Now;entity.Id = Result.GetNewId(); 
+                entity.CreateTime = DateTime.Now;
                 entity.CreatePerson = currentPerson;
-              
+                entity.Title = GetVersion().ToString();
                 entity.Id = Result.GetNewId();   
                 string returnValue = string.Empty;
                 if (m_BLL.Create(ref validationErrors, entity))
