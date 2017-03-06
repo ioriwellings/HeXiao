@@ -263,11 +263,11 @@ namespace Langben.BLL
                 ISheet sheetfileStandard = workbookStandard.GetSheetAt(0);
                 for (int i = 0; i < 2; i++)//复制表头
                 {
-                    CopyRow(workbookStandard, sheetfileStandard, sheet, i, i);
+                    CopyRow(workbookStandard, sheetfileStandard, sheet, i, i, string.Empty);
                 }
                 for (int i = 0; i < onlyBase.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard, sheet, onlyBase[i].Row, i + 2);
+                    CopyRow(workbookStandard, sheetfileStandard, sheet, onlyBase[i].Row, i + 2, string.Empty);
                 }
 
                 ICellStyle style = null;//红色单元格
@@ -276,11 +276,11 @@ namespace Langben.BLL
                 ISheet sheetfileStandard1 = workbookStandard.GetSheetAt(1);
                 for (int i = 0; i < 2; i++)//复制表头
                 {
-                    CopyRow(workbookStandard, sheetfileStandard1, sheet2, i, i);
+                    CopyRow(workbookStandard, sheetfileStandard1, sheet2, i, i, "2");
                 }
                 for (int i = 0; i < onlyMatch.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard1, sheet2, onlyMatch[i].Row, i + 2);
+                    CopyRow(workbookStandard, sheetfileStandard1, sheet2, onlyMatch[i].Row, i + 2, "2");
                 }
 
                 ISheet sheetfileStandard2 = workbookStandard.GetSheetAt(2);
@@ -358,14 +358,14 @@ namespace Langben.BLL
                 {
                     foreach (var item in flag)
                     {
-                        CopyRow(workbookStandard, sheetfileStandard2, sheet, t, t, item.Key-1, item.Value);
+                        CopyRow(workbookStandard, sheetfileStandard2, sheet, t, t, item.Key - 1, item.Value);
                     }
                 }
                 for (int t = 0; t < 2; t++)//复制表头
                 {
                     foreach (var item in flag2)
                     {
-                        CopyRow(workbookStandard, sheetfileStandard2, sheet2, t, t, item.Key-1, item.Value);
+                        CopyRow(workbookStandard, sheetfileStandard2, sheet2, t, t, item.Key - 1, item.Value);
                     }
                 }
 
@@ -435,21 +435,21 @@ namespace Langben.BLL
                 ISheet sheetfileStandard4 = workbookStandard.GetSheetAt(4);
                 for (int i = 0; i < 2; i++)//复制表头
                 {
-                    CopyRow(workbookStandard, sheetfileStandard4, sheet, i, i);
+                    CopyRow(workbookStandard, sheetfileStandard4, sheet, i, i, string.Empty);
                 }
                 for (int i = 0; i < manyBase.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard4, sheet, manyBase[i].Row, i + 2);
+                    CopyRow(workbookStandard, sheetfileStandard4, sheet, manyBase[i].Row, i + 2, string.Empty);
                 }
 
                 ISheet sheetfileStandard5 = workbookStandard.GetSheetAt(5);
                 for (int i = 0; i < 2; i++)//复制表头
                 {
-                    CopyRow(workbookStandard, sheetfileStandard5, sheet2, i, i);
+                    CopyRow(workbookStandard, sheetfileStandard5, sheet2, i, i, "2");
                 }
                 for (int i = 0; i < manyMatch.Count; i++)
                 {
-                    CopyRow(workbookStandard, sheetfileStandard5, sheet2, manyMatch[i].Row, i + 2);
+                    CopyRow(workbookStandard, sheetfileStandard5, sheet2, manyMatch[i].Row, i + 2, "2");
                 }
 
 
@@ -503,9 +503,9 @@ namespace Langben.BLL
         /// </summary>
         /// <param name="sheet"></param>
         /// <returns></returns>
-        private static Dictionary<string, List<CellRangeAddress>> GetMergedCellRegion(ISheet sheet)
+        private static Dictionary<string, List<CellRangeAddress>> GetMergedCellRegion(ISheet sheet, string num)
         {
-            if (!returnList.ContainsKey(sheet.SheetName))
+            if (!returnList.ContainsKey(sheet.SheetName + num))
             {
                 int mergedRegionCellCount = sheet.NumMergedRegions;
                 List<CellRangeAddress> cellList = new List<CellRangeAddress>();
@@ -514,7 +514,7 @@ namespace Langben.BLL
                 {
                     cellList.Add(sheet.GetMergedRegion(i));
                 }
-                returnList.Add(sheet.SheetName, cellList);
+                returnList.Add(sheet.SheetName + num, cellList);
 
             }
 
@@ -528,17 +528,17 @@ namespace Langben.BLL
         /// <param name="columnIndex"></param>
         /// <param name="rowIndex"></param> 
         /// <returns>合并单元格的范围</returns>
-        public static CellRangeAddress getMergedRegionCell(ISheet sheet, int columnIndex, int rowIndex)
+        public static CellRangeAddress getMergedRegionCell(ISheet sheet, int columnIndex, int rowIndex, string num)
         {
             List<CellRangeAddress> result = null;
-            if (!returnList.ContainsKey(sheet.SheetName))
+            if (!returnList.ContainsKey(sheet.SheetName + num))
             {
-                GetMergedCellRegion(sheet);
+                GetMergedCellRegion(sheet, num);
 
             }
-            result = returnList[sheet.SheetName];
+            result = returnList[sheet.SheetName + num];
             return (from c in result
-                    where columnIndex >= c.FirstColumn && columnIndex <= c.LastColumn && rowIndex >= c.FirstRow && rowIndex <= c.LastRow
+                    where columnIndex == c.FirstColumn && rowIndex == c.FirstRow
                     select c).FirstOrDefault();
 
         }
@@ -553,7 +553,7 @@ namespace Langben.BLL
         /// <param name="destinationsheet">WorkSheet containing rows to be copied</param>
         /// <param name="sourceRowNum">Source Row Number</param>
         /// <param name="destinationRowNum">Destination Row Number</param>
-        private static void CopyRow(IWorkbook workbook, ISheet destinationsheet, ISheet sourcesheet, int sourcerow, int destinationRowNum)
+        private static void CopyRow(IWorkbook workbook, ISheet destinationsheet, ISheet sourcesheet, int sourcerow, int destinationRowNum, string num)
         {
             // Get the source / new row
             var newRow = destinationsheet.CreateRow(destinationRowNum);
@@ -620,12 +620,12 @@ namespace Langben.BLL
                 #region 新合并方式                   
                 if (sourceCell.IsMergedCell)
                 {
-                    CellRangeAddress cellAddress = getMergedRegionCell(sourcesheet, i, sourceRow.RowNum);//此处有错
+                    CellRangeAddress cellAddress = getMergedRegionCell(sourcesheet, i, sourceRow.RowNum, num);//此处有错
                     if (cellAddress != null && cellAddress.LastColumn > startMergeCell && (cellAddress.LastRow > cellAddress.FirstRow || cellAddress.LastColumn > cellAddress.FirstColumn))
                     {
                         if (sourceRow.RowNum == cellAddress.LastRow)
                         {
-                            destinationsheet.AddMergedRegion(new CellRangeAddress(i - (cellAddress.LastRow - cellAddress.FirstRow), i, cellAddress.FirstColumn, cellAddress.LastColumn));
+                            destinationsheet.AddMergedRegion(new CellRangeAddress(cellAddress.FirstRow, cellAddress.LastRow, cellAddress.FirstColumn, cellAddress.LastColumn));
                             startMergeCell = cellAddress.LastColumn + 1;
                         }
 
@@ -646,16 +646,17 @@ namespace Langben.BLL
             // Get the source / new row
             var newRow = destinationsheet.GetRow(destinationRowNum);
             if (newRow == null)
-            { newRow = destinationsheet.CreateRow(destinationRowNum);
-             
+            {
+                newRow = destinationsheet.CreateRow(destinationRowNum);
+
             }
-           
+
             var sourceRow = sourcesheet.GetRow(sourcerow);
             if (sourceRow == null)
             {
                 return;
             }
-            
+
             // Grab a copy of the old/new cell
             var sourceCell = sourceRow.GetCell(sourceCol);
             var newCell = newRow.CreateCell(destinationCol);

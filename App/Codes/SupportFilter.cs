@@ -13,6 +13,7 @@ namespace Models
         /// <param name="filterContext">请求上下文</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            return;
             if (System.Web.HttpContext.Current.Request.Cookies == null || System.Web.HttpContext.Current.Request.Cookies["LoginHR"] == null)
             {
                 filterContext.HttpContext.Response.Write(" <script type='text/javascript'>alert('超时，请重新登陆'); window.location='http://pass.hrinto.cn/login'; </script>");
