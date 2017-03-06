@@ -107,14 +107,14 @@
         }
 
         function SaveFeedback() {
-            var message = $.trim($("#txtMessage").val());
+            var message = $.trim($("#Message").val());
             if (message == "" || message.length > 500) {
                 $("#spError").show();
             }
             else {
                 $.ajax({
                     type: 'POST',
-                    url: '/api/SysFeedbackApi',
+                    url: '/SysAnnouncement/Create',
                     data: $("#formFeed").serialize(),
                     dataType: 'json',
                     beforeSend: function (XMLHttpRequest) {
@@ -165,16 +165,11 @@
             <!-- BEGIN TOP NAVIGATION MENU -->
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
-                    <!-- BEGIN NOTIFICATION DROPDOWN -->
-                    
-                    <!-- END NOTIFICATION DROPDOWN -->
-                    <!-- BEGIN USER LOGIN DROPDOWN -->
-                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                     <li class="dropdown dropdown-user">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <img alt="" class="img-circle" src="/images/touxiang.png" /> <span class="username username-hide-on-mobile"> @ViewBag.LogInPerson </span> <i class="fa fa-angle-down"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                      
-                            <li> <a href="/Login/Logout"> <i class="icon-key"></i> 退出系统 </a> </li>
+                            <li> <a href='http://pass.hrinto.cn/logoff'> <i class="icon-key"></i> 退出系统 </a> </li>
                         </ul>
                     </li>
                     <!-- END USER LOGIN DROPDOWN -->
@@ -276,7 +271,7 @@
                         <p>
                             我们倾听你的声音
                         </p>
-                        <textarea name="Message" id="txtMessage" rows="5" style="height:160px" class="form-control" placeholder="欢迎提出宝贵的意见和建议。抱歉我们无法逐一回复，但我们会认真阅读，你的支持是对我们最大的鼓励和帮助。"></textarea>
+                        <textarea name="Message" id="Message" rows="5" style="height:160px" class="form-control" placeholder="欢迎提出宝贵的意见和建议。抱歉我们无法逐一回复，但我们会认真阅读，你的支持是对我们最大的鼓励和帮助。"></textarea>
                         <span id="spError" style="display:none; color:red">反馈意见不能为空或超过500字</span>
                     </div>
                 </form>

@@ -2,11 +2,12 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
- 
+
 using Langben.DAL;
 using System.Globalization;
 using System.Runtime.Serialization;
 using Common;
+using System.Web;
 
 namespace Models
 {
@@ -17,7 +18,18 @@ namespace Models
     {
         public static int GetVersion()
         {
-            return 36319772;
+            
+            if (HttpContext.Current.Request.Cookies != null && HttpContext.Current.Request.Cookies["LoginHR"] != null)
+            {
+                HttpCookie loginCookie = HttpContext.Current.Request.Cookies["LoginHR"];
+                return Convert.ToInt32(loginCookie.Values["Identification"]);//公司ID（代码）
+            }
+            else
+            {
+                return 0;
+            }
+
+         
 
 
         }

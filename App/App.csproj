@@ -1801,6 +1801,7 @@
     <Content Include="assets\global\plugins\uniform\css\uniform.default.scss" />
     <Content Include="assets\global\plugins\uniform\README.md" />
     <Content Include="Images\Sorting icons.psd" />
+    <None Include="Properties\PublishProfiles\tool.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1823,9 +1824,7 @@
     <Content Include="Views\FileUploader\Details.cshtml" />
     <Content Include="Views\FileUploader\Edit.cshtml" />
     <Content Include="Views\FileUploader\Index.cshtml" />
-    <Content Include="Views\HomeRight\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Shared\Create.cshtml" />
     <Content Include="Views\Shared\Details.cshtml" />
     <Content Include="Views\Shared\Edit.cshtml" />
@@ -1929,8 +1928,6 @@
     <Content Include="Views\Insurance\Edit.cshtml" />
     <Content Include="Views\Insurance\Index.cshtml" />
     <Content Include="Views\MYResult\Create.cshtml" />
-    <Content Include="Views\MYResult\Details.cshtml" />
-    <Content Include="Views\MYResult\Edit.cshtml" />
     <Content Include="Views\MYResult\Index.cshtml" />
     <Content Include="Views\PoliceAccountNature\Create.cshtml" />
     <Content Include="Views\PoliceAccountNature\Details.cshtml" />
@@ -1946,8 +1943,6 @@
     <Content Include="Views\Rule\Edit.cshtml" />
     <Content Include="Views\Rule\Index.cshtml" />
     <Content Include="Views\MatchResult\Create.cshtml" />
-    <Content Include="Views\MatchResult\Details.cshtml" />
-    <Content Include="Views\MatchResult\Edit.cshtml" />
     <Content Include="Views\MatchResult\Index.cshtml" />
     <Content Include="up\standard\result.xls" />
   </ItemGroup>

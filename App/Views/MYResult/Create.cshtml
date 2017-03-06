@@ -522,8 +522,7 @@
         };
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
         uploader.on('uploadSuccess', function (file, responseText) {
-         
-            debugger
+          
             $("#hiddenPicture").empty();
             $("#hiddenPicture").append('<input type="hidden" class="GoldTempFullPath" value="'
                 + responseText._raw + '" /><input type="hidden" class="GoldTempPath" value="'

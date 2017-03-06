@@ -22,7 +22,7 @@ namespace Langben.DAL
 
             [ScaffoldColumn(true)]
             [Display(Name = "标题", Order = 2)]
-            [Required(ErrorMessage = "请填写")]
+          
             [StringLength(100, ErrorMessage = "长度不可超过100")]
             public string Title { get; set; }
 
