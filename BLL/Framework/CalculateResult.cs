@@ -19,6 +19,11 @@ namespace Langben.BLL
                 {
                     this.Red = true;
                 }
+                else   if (string.IsNullOrWhiteSpace(this.Value))
+                {
+                    c = value;
+                    this.Red = true;
+                    }
                 else
                 {
                     c = value;
@@ -35,6 +40,7 @@ namespace Langben.BLL
                     {
                         f = value;
                     }
+                  
                     if (this.Value.Contains('%'))
                     {
                         g = this.Value.Remove(this.Value.IndexOf('%'));

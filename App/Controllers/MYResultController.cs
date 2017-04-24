@@ -77,7 +77,7 @@ namespace Langben.App.Controllers
         [SupportFilter]
         public ActionResult Create(string id)
         {
-
+            ViewBag.id = GetVersion();
             return View();
         }
 

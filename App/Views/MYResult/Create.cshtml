@@ -8,7 +8,7 @@
     <div class="portlet-title">
         <div class="caption">
             <i class="icon-equalizer font-red-sunglo"></i>
-            <span class="caption-subject font-red-sunglo bold uppercase">对比</span>
+            <span class="caption-subject font-red-sunglo bold uppercase">转换</span>
             <span class="caption-helper">Excel最大支持为5MB</span>
         </div>
     </div>
@@ -100,7 +100,10 @@
 
 <script type="text/javascript">
     function publish() {
-     //   alert('此功能为付费功能，请联系管理员开通，010-57235222'); return;
+        //  
+        if(@ViewBag.id==36319772){}else {
+            alert('此功能为付费功能，请联系管理员开通，010-57235222'); return;
+        }
         var GoldTempId = $("#GoldTempId").val();//
         if (GoldTempId == null || GoldTempId == '') {
             alert('目标模板不能为空');

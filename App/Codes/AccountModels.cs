@@ -18,7 +18,7 @@ namespace Models
     {
         public static int GetVersion()
         {
-            return 36319772;//切换账号
+            return 36319772;//切换账号 发布的时候要修改
             if (HttpContext.Current.Request.Cookies != null && HttpContext.Current.Request.Cookies["LoginHR"] != null)
             {
                 HttpCookie loginCookie = HttpContext.Current.Request.Cookies["LoginHR"];
